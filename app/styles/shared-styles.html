@@ -5,26 +5,22 @@
 <dom-module id="shared-styles">
   <template>
     <style>
-      .page-title {
-        @apply(--paper-font-display2);
+      .waverley {
+        font-family: 'Roboto', Arial, sans-serif;
+        font-weight: 300;
       }
-
-      .app-menu {
-        --paper-menu-selected-item: {
-          color: #fff;
-          background: var(--light-primary-color);
-        }
+      .dash {
+        font-family: 'Roboto Mono', Consolas, monospace;
+        font-weight: 400;
       }
-
-      paper-menu a > *, paper-menu paper-item > *, paper-menu paper-icon-item > * {
-        pointer-events: none;
+      paper-scroll-header-panel {
+        height: 900px;
       }
-
-      @media (max-width: 600px) {
-        .page-title {
-          font-size: 24px!important;
-        }
+      neon-animatable {
+        @apply(--layout-vertical);
+        @apply(--center);
       }
+      
     </style>
   </template>
 </dom-module>

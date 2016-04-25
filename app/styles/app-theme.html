@@ -31,12 +31,12 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     --secondary-text-color: #737373;
     --disabled-text-color: #9b9b9b;
     --divider-color: #dbdbdb;
-    --primary-color: var(--paper-indigo-500);
-    --light-primary-color: var(--paper-indigo-100);
-    --dark-primary-color: var(--paper-indigo-700);
-    --accent-color: var(--paper-pink-a200);
-    --light-accent-color: var(--paper-pink-a100);
-    --dark-accent-color: var(--paper-pink-a400);
+    --primary-color: var(--paper-green-500);
+    --light-primary-color: var(--paper-green-100);
+    --dark-primary-color: var(--paper-green-700);
+    --accent-color: var(--paper-red-a200);
+    --light-accent-color: var(--paper-red-a100);
+    --dark-accent-color: var(--paper-red-a400);
 
     /* Components */
 
@@ -48,6 +48,17 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     /* paper-menu */
     --paper-menu-background-color: #fff;
     --menu-link-color: #111111;
+
+    /* paper-tabs */
+    --paper-tabs: {
+      background-color:var(--primary-color);
+    };
+    --paper-tabs-selection-bar-color: var(--dark-accent-color);
+    --paper-tab-ink: var(--dark-accent-color);
+
+    --paper-scroll-header-container: {
+      background-color:var(--paper-grey-50);
+    };
   }
 
   /* General styles */
@@ -71,9 +82,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     @apply(--paper-font-title);
   }
 
-  paper-scroll-header-panel {
-    height: 100%;
-  }
+
 
   paper-menu {
     --paper-menu-selected-item: {

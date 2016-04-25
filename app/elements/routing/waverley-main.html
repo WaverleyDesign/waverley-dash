@@ -1,0 +1,42 @@
+<dom-module id="waverley-main">
+   <template>
+     <style>
+       :host {
+         display: block;
+         height: ;
+       }
+     </style>
+     <style include="shared-styles"></style>
+     <carbon-location use-hash-as-path route="{{route}}"></carbon-location>
+
+     <!-- Two routes, one for the home page, and one for the dash page. -->
+     <carbon-route route="{{route}}" pattern="/dash" tail="{{dashRoute}}" active="{{dashActive}}"></carbon-route>
+     <carbon-route route="{{route}}" pattern="/" active="{{homeActive}}"></carbon-route>
+
+     <div hidden$="{{!homeActive}}">
+       Main page!<br><br>
+       <a href="#/dash/">dash page</a>
+     </div>
+     <div hidden$="{{!dashActive}}">
+
+       <!-- waverley-dash is an element that handles routing within itself.
+            view-source for more details!
+         -->
+       <waverley-dash route="{{dashRoute}}"></waverley-dash>
+       <a href="#/">Back to main page</a>
+     </div>
+   </template>
+   <script>
+     Polymer({
+       is: 'waverley-main',
+       ready: function() {
+         this.async(function() {
+           // If the path is blank, redirect to /
+           if (!this.route.path) {
+             this.set('route.path', '/');
+           }
+         });
+       }
+     });
+   </script>
+ </dom-module>
