@@ -1,0 +1,213 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+
+		<link rel="import" href="../../bower_components/iron-ajax/iron-ajax.html">
+
+		<link rel="import" href="../../bower_components/marked-element/marked-import.html">
+		<link rel="import" href="../../bower_components/wysiwyg-e/wysiwyg-e.html">
+		<link rel="import" href="../../bower_components/wysiwyg-e/tools/bold.html">
+		<link rel="import" href="../../bower_components/wysiwyg-e/tools/italic.html">
+		<link rel="import" href="../../bower_components/wysiwyg-e/tools/underline.html">
+		<link rel="import" href="../../bower_components/wysiwyg-e/tools/strike.html">
+		<link rel="import" href="../../bower_components/wysiwyg-e/tools/clear.html">
+		<link rel="import" href="../../bower_components/wysiwyg-e/tools/link.html">
+		<link rel="import" href="../../bower_components/wysiwyg-e/tools/image.html">
+		<link rel="import" href="../../bower_components/wysiwyg-e/tools/ordered.html">
+		<link rel="import" href="../../bower_components/wysiwyg-e/tools/unordered.html">
+		<link rel="import" href="../../bower_components/wysiwyg-e/tools/indent.html">
+		<link rel="import" href="../../bower_components/wysiwyg-e/tools/outdent.html">
+		<link rel="import" href="../../bower_components/wysiwyg-e/tools/heading.html">
+		<link rel="import" href="../../bower_components/wysiwyg-e/tools/justify.html">
+		<link rel="import" href="../../bower_components/wysiwyg-e/tools/blockquote.html">
+		<link rel="import" href="../../bower_components/wysiwyg-e/tools/undo.html">
+		<link rel="import" href="../../bower_components/wysiwyg-e/tools/redo.html">
+
+
+
+<dom-module id="text-editor">
+  <template>
+    <style>
+      :host {
+        display: block;
+	        width: auto;
+	        height: 500px;
+      }
+
+
+
+			.top-bar {
+				background-color: var(--accent-color);
+				margin: 0px;
+				padding: 16px;
+				border-bottom: 1px solid #ededed;
+			}
+
+			.bottom-bar {
+				padding: 0px 16px;
+			}
+
+			paper-dialog	{
+				background-color: #ededed;
+			}
+
+    /*  paper-button {
+        width: 100%;
+        border-radius: 0px 0px 25px 25px;
+        margin: 0;
+        background: var(--dark-primary-color);
+        color: white;
+      } */
+
+      paper-material {
+        background: var(--primary-color);
+				height:;
+				margin: 0px;
+				padding: 0px;
+      }
+
+
+
+			wysiwyg-e {
+				--wysiwyg-toolbar: {
+					background-color: var(--dark-accent-color);
+				};
+        height: 100%;
+			}
+
+			.dialog {
+				width: 50%;
+				display: block;
+			  height: auto;
+				position: fixed;
+				margin: auto;
+				z-index: 104;
+			}
+
+			paper-input {
+				--paper-input-container-focus-color: #ffffff;
+				--paper-input-container-color: #ededed;
+				--paper-input-container-input: {
+				color: #ededed;
+				};
+			}
+    </style>
+    <!--<iron-ajax url="../README.md" handle-as="text" last-response="{{readme}}" auto on-response="_readmeOrValue"></iron-ajax>-->
+    <paper-material id="editor" class="fit vertical layout" elevation="5">
+
+<div class="top-bar">
+	<paper-input disabled="{{overwrite}}" no-label-float value="{{title}}" label="Title" id="titleInput"></paper-input>
+	<paper-input disabled="{{overwrite}}" no-label-float value="{{author}}" label="Author" id="authorInput"></paper-input>
+</div>
+
+
+      <wysiwyg-e class="flex" value="{{value}}" id="wysiwygE">
+        <wysiwyg-tool-bold class="wysiwyg-tool"></wysiwyg-tool-bold>
+        <wysiwyg-tool-italic class="wysiwyg-tool"></wysiwyg-tool-italic>
+        <wysiwyg-tool-underline class="wysiwyg-tool"></wysiwyg-tool-underline>
+        <wysiwyg-tool-strike class="wysiwyg-tool"></wysiwyg-tool-strike>
+        <wysiwyg-tool-clear class="wysiwyg-tool"></wysiwyg-tool-clear>
+        <wysiwyg-tool-link class="wysiwyg-tool"></wysiwyg-tool-link>
+        <wysiwyg-tool-image class="wysiwyg-tool"></wysiwyg-tool-image>
+        <wysiwyg-tool-ordered class="wysiwyg-tool"></wysiwyg-tool-ordered>
+        <wysiwyg-tool-unordered class="wysiwyg-tool"></wysiwyg-tool-unordered>
+        <wysiwyg-tool-indent class="wysiwyg-tool"></wysiwyg-tool-indent>
+        <wysiwyg-tool-outdent class="wysiwyg-tool"></wysiwyg-tool-outdent>
+        <wysiwyg-tool-justify class="wysiwyg-tool" right center full></wysiwyg-tool-justify>
+        <wysiwyg-tool-heading class="wysiwyg-tool" h1 h2 h3 h4 h5 h6></wysiwyg-tool-heading>
+        <wysiwyg-tool-blockquote class="wysiwyg-tool"></wysiwyg-tool-blockquote>
+        <wysiwyg-tool-undo class="wysiwyg-tool"></wysiwyg-tool-undo>
+        <wysiwyg-tool-redo class="wysiwyg-tool"></wysiwyg-tool-redo>
+
+      </wysiwyg-e>
+
+
+				<paper-button  on-tap="submit" raised>Submit</paper-button>
+			</div>
+
+			<paper-dialog class="dialog" id="dialog">
+
+				<h1>Confirm Submit</h1>
+				<p>
+					All good to post?
+				</p>
+				<paper-button on-tap="confirmSubmit" dialog-confirm>confirm Submit</paper-button>
+				<paper-button dialog-dismiss>keep editing</paper-button>
+			</paper-dialog>
+
+
+
+
+    </paper-material>
+  </template>
+  <script>
+		Polymer({
+			is: 'text-editor',
+			properties: {
+				html: {
+					notify: true,
+					type: String,
+					value: ''
+				},
+				value: {
+					notify: true,
+					type: String,
+					value: ''
+				},
+				overwrite: {
+					type: Boolean,
+					value: false
+				},
+				title: {
+					type: String,
+					value:'',
+				},
+				author: {
+					type: String,
+					value:'',
+				},
+				tagInputs: {
+					notify: true,
+					type: Array,
+					value: [
+						{id: 'one'},
+					]
+				},
+			},
+			getHtml: function() {
+				console.log(this.$.wysiwygE.value);
+				window.alert(this.$.wysiwygE.value);
+				this.html = this.$.wysiwygE.value;
+			},
+			submit: function() {
+				this.$.dialog.open();
+			},
+			confirmSubmit: function() {
+				this.dialogOpened = false;
+				this.html = this.$.wysiwygE.value;
+				var post = new Object();
+				post.title = document.getElementById('titleInput').value;
+				post.author = document.getElementById('authorInput').value;
+				post.date = new Date();
+				post.html = this.html;
+				var title = post.title;
+				var author = post.author;
+				var html = post.html;
+				if (title == null) {
+					console.log('just no.');
+				} else {
+          console.log(post);
+					var ref = new Firebase('https://asf45gsare.firebaseio.com/blog/posts/' + post.title);
+					ref.set(post);
+					// location.reload();
+				}
+
+			},
+			addTag: function(tag) {
+        this.push('tagInputs', tag);
+      },
+      removeTag: function(tag) {
+        var index = this.tagInputs.indexOf(tag);
+        this.splice('tagInputs', index, 1);
+      }
+		});
+  </script>
+</dom-module>
