@@ -1,0 +1,39 @@
+<dom-module id="overview-page">
+  <template>
+    <style include="shared-styles"></style>
+    <style>
+    #notes {
+  @apply(--layout-vertical);
+  @apply(--layout-wrap);
+  height: 344px;
+  width: 100%;
+}
+
+#notes > paper-card {
+  box-sizing: border-box;
+  width: 50%;
+  margin: 4px;
+  flex: 0 0 auto;
+  color: white;
+}
+    </style>
+    <style include="iron-flex iron-flex-alignment"></style>
+
+    <div id="notes">
+      <paper-card heading="{{views}} Today">
+      </paper-card>
+      <paper-card heading="{{comments}} Today">
+      </paper-card>
+      <paper-card heading="{{views}} Today">
+      </paper-card>
+      <paper-card heading="{{comments}} Today">
+      </paper-card>
+    </div>
+
+  </template>
+  <script>
+    Polymer({
+      is: 'overview-page'
+    });
+  </script>
+</dom-module>
