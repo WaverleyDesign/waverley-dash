@@ -1,0 +1,25 @@
+<dom-module id="blogroll-editor">
+  <template>
+    <style include="shared-styles"></style>
+    <style include="iron-flex iron-flex-alignment"></style>
+    <style>
+
+    </style>
+
+
+    <template is="dom-repeat" items="{{posts}}" as="post" index-as="index">
+      <collapsible-editor title="{{post.title}}"
+          author="{{post.author}}" date="{{post.date}}"
+          tags="{{post.tags}}" html="{{post.html}}"
+      ></collapsible-editor>
+    </template>
+
+
+
+  </template>
+  <script>
+    Polymer({
+      is: 'blogroll-editor',
+    });
+  </script>
+</dom-module>

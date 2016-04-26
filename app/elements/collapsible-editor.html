@@ -1,0 +1,47 @@
+<dom-module id="collapsible-editor">
+  <template>
+    <style include="shared-styles"></style>
+    <style include="iron-flex iron-flex-alignment"></style>
+    <style>
+    .toggle {
+      width: 100%;
+      height: 32px;
+      border: 1px solid var(--accent-color);
+    }
+    .toggle-tall {
+      width: 100%;
+      height: 64px;
+      border: 1px solid var(--accent-color);
+    }
+
+    </style>
+
+    <iron-collapse opened id="collapsePanel">
+      <div class="toggle horizontal layout wrap" on-tap="toggle" >
+        <p>
+          {{title}}
+        </p>
+        <span class="flex"></span>
+      </div>
+    </iron-collapse>
+
+    <iron-collapse id="collapse">
+      <div class="toggle-tall" on-tap="toggle">
+        <h1>Title</h1>
+      </div>
+        <text-editor html="{{html}}"></text-editor>
+    </iron-collapse>
+
+
+
+  </template>
+  <script>
+    Polymer({
+      is: 'collapsible-editor',
+      toggle: function() {
+        this.$.collapse.toggle();
+        this.$.collapsePanel.toggle();
+      },
+    });
+  </script>
+</dom-module>

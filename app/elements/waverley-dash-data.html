@@ -1,0 +1,29 @@
+<dom-module id="waverley-dash-data">
+  <template>
+
+    <firebase-collection data="{{posts}}" location="https://waverleydash.firebaseio.com/blog/posts"></firebase-collection>
+
+  </template>
+  <script>
+    Polymer({
+      is: 'waverley-dash-data',
+      properties: {
+        posts: {
+          type: Object,
+          value: '',
+          notify: true
+        },
+        location: {
+          type: String
+        },
+        moddedLocation: {
+          type: String,
+          notify: true
+        }
+      },
+      ready: function() {
+        this.moddedLocation = this.location + '/blog/posts/';
+      }
+    });
+  </script>
+</dom-module>

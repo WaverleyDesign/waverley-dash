@@ -24,6 +24,8 @@
     <style include="shared-styles"></style>
     <style include="iron-flex iron-flex-alignment"></style>
 
+    <waverley-dash-data posts="{{posts}}" location="{{location}}" modded-location="{{moddedLocation}}"></waverley-dash-data>
+
     <carbon-route route="{{route}}" pattern="/:tabName" data="{{data}}"></carbon-route>
     <paper-scroll-header-panel>
       <div class="paper-header">
@@ -52,8 +54,7 @@
           </neon-animatable>
 
           <neon-animatable class="vertical layout center" name='blog'>
-            <blog-editor-page></blog-editor-page>
-            <text-editor></text-editor>
+            <blog-editor-page posts="{{posts}}"></blog-editor-page>
           </neon-animatable>
 
         </neon-animated-pages>

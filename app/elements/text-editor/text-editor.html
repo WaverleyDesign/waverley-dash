@@ -38,7 +38,6 @@
 				background-color: var(--accent-color);
 				margin: 0px;
 				padding: 16px;
-				border-bottom: 1px solid #ededed;
 			}
 
 			.bottom-bar {
@@ -49,16 +48,8 @@
 				background-color: #ededed;
 			}
 
-    /*  paper-button {
-        width: 100%;
-        border-radius: 0px 0px 25px 25px;
-        margin: 0;
-        background: var(--dark-primary-color);
-        color: white;
-      } */
-
       paper-material {
-        background: var(--primary-color);
+        background: white;
 				height:;
 				margin: 0px;
 				padding: 0px;
@@ -69,37 +60,38 @@
 			wysiwyg-e {
 				--wysiwyg-toolbar: {
 					background-color: var(--dark-accent-color);
+					color: var(--primary-text-color)
 				};
-        height: 100%;
+        height: 400px;
 			}
 
-			.dialog {
-				width: 50%;
-				display: block;
-			  height: auto;
-				position: fixed;
-				margin: auto;
-				z-index: 104;
-			}
 
 			paper-input {
-				--paper-input-container-focus-color: #ffffff;
-				--paper-input-container-color: #ededed;
+				--paper-input-container-focus-color: var(--primary-text-color);
+				--paper-input-container-color: var(--primary-text-color);
 				--paper-input-container-input: {
-				color: #ededed;
+				color: var(--primary-text-color);
 				};
+			}
+
+			.suffix {
+				color: var(--paper-red-500);
 			}
     </style>
     <!--<iron-ajax url="../README.md" handle-as="text" last-response="{{readme}}" auto on-response="_readmeOrValue"></iron-ajax>-->
-    <paper-material id="editor" class="fit vertical layout" elevation="5">
+    <paper-material id="editor" class="fit vertical layout" elevation="1">
 
 <div class="top-bar">
-	<paper-input disabled="{{overwrite}}" no-label-float value="{{title}}" label="Title" id="titleInput"></paper-input>
-	<paper-input disabled="{{overwrite}}" no-label-float value="{{author}}" label="Author" id="authorInput"></paper-input>
+	<paper-input no-label-float value="{{title}}" label="Title" id="titleInput">
+		<div suffix class="suffix">*</div>
+	</paper-input>
+	<paper-input no-label-float value="{{author}}" label="Author" id="authorInput">
+		<div suffix class="suffix">*</div>
+	</paper-input>
 </div>
 
 
-      <wysiwyg-e class="flex" value="{{value}}" id="wysiwygE">
+      <wysiwyg-e class="flex" value="{{html}}" id="wysiwygE">
         <wysiwyg-tool-bold class="wysiwyg-tool"></wysiwyg-tool-bold>
         <wysiwyg-tool-italic class="wysiwyg-tool"></wysiwyg-tool-italic>
         <wysiwyg-tool-underline class="wysiwyg-tool"></wysiwyg-tool-underline>
@@ -116,25 +108,9 @@
         <wysiwyg-tool-blockquote class="wysiwyg-tool"></wysiwyg-tool-blockquote>
         <wysiwyg-tool-undo class="wysiwyg-tool"></wysiwyg-tool-undo>
         <wysiwyg-tool-redo class="wysiwyg-tool"></wysiwyg-tool-redo>
-
       </wysiwyg-e>
 
-
-				<paper-button  on-tap="submit" raised>Submit</paper-button>
-			</div>
-
-			<paper-dialog class="dialog" id="dialog">
-
-				<h1>Confirm Submit</h1>
-				<p>
-					All good to post?
-				</p>
-				<paper-button on-tap="confirmSubmit" dialog-confirm>confirm Submit</paper-button>
-				<paper-button dialog-dismiss>keep editing</paper-button>
-			</paper-dialog>
-
-
-
+			<content></content>
 
     </paper-material>
   </template>
@@ -152,62 +128,49 @@
 					type: String,
 					value: ''
 				},
-				overwrite: {
-					type: Boolean,
-					value: false
-				},
 				title: {
 					type: String,
 					value:'',
+					notify: true
 				},
 				author: {
 					type: String,
 					value:'',
-				},
-				tagInputs: {
-					notify: true,
-					type: Array,
-					value: [
-						{id: 'one'},
-					]
+					notify: true
 				},
 			},
-			getHtml: function() {
-				console.log(this.$.wysiwygE.value);
-				window.alert(this.$.wysiwygE.value);
-				this.html = this.$.wysiwygE.value;
+			warnRequired: function() {
+				this.warnRequired = true;
 			},
-			submit: function() {
-				this.$.dialog.open();
-			},
-			confirmSubmit: function() {
-				this.dialogOpened = false;
-				this.html = this.$.wysiwygE.value;
-				var post = new Object();
-				post.title = document.getElementById('titleInput').value;
-				post.author = document.getElementById('authorInput').value;
-				post.date = new Date();
-				post.html = this.html;
-				var title = post.title;
-				var author = post.author;
-				var html = post.html;
-				if (title == null) {
-					console.log('just no.');
-				} else {
-          console.log(post);
-					var ref = new Firebase('https://asf45gsare.firebaseio.com/blog/posts/' + post.title);
-					ref.set(post);
-					// location.reload();
-				}
-
-			},
-			addTag: function(tag) {
-        this.push('tagInputs', tag);
-      },
-      removeTag: function(tag) {
-        var index = this.tagInputs.indexOf(tag);
-        this.splice('tagInputs', index, 1);
-      }
+			// getHtml: function() {
+			// 	console.log(this.$.wysiwygE.value);
+			// 	window.alert(this.$.wysiwygE.value);
+			// 	this.html = this.$.wysiwygE.value;
+			// },
+			// submit: function() {
+			// 	this.$.dialog.open();
+			// },
+			// confirmSubmit: function() {
+			// 	this.dialogOpened = false;
+			// 	this.html = this.$.wysiwygE.value;
+			// 	var post = new Object();
+			// 	post.title = document.getElementById('titleInput').value;
+			// 	post.author = document.getElementById('authorInput').value;
+			// 	post.date = new Date();
+			// 	post.html = this.html;
+			// 	var title = post.title;
+			// 	var author = post.author;
+			// 	var html = post.html;
+			// 	if (title == null) {
+			// 		console.log('just no.');
+			// 	} else {
+      //     console.log(post);
+			// 		var ref = new Firebase(this.location + 'blog/posts/' + post.title);
+			// 		ref.set(post);
+			// 		// location.reload();
+			// 	}
+			//
+			// },
 		});
   </script>
 </dom-module>

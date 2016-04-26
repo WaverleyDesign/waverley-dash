@@ -1,0 +1,24 @@
+<dom-module id="new-post-editor">
+  <template>
+    <style include="shared-styles"></style>
+    <style include="iron-flex iron-flex-alignment"></style>
+    <style>
+      paper-fab {
+        bottom: 32px;
+        right: 32px;
+        position: fixed;
+      }
+    </style>
+
+
+
+    <paper-fab icon="add" on-tap="newPost"></paper-fab>
+
+
+  </template>
+  <script>
+    Polymer({
+      is: 'new-post-editor',
+    });
+  </script>
+</dom-module>
