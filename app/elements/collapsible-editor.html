@@ -16,6 +16,8 @@
 
     </style>
 
+    <firebase-document location="https://waverleydash.firebaseio.com" data="{{data}}"></firebase-document>
+
     <iron-collapse opened id="collapsePanel">
       <div class="toggle horizontal layout wrap" on-tap="toggle" >
         <p>
@@ -29,7 +31,9 @@
       <div class="toggle-tall" on-tap="toggle">
         <h1>Title</h1>
       </div>
-        <text-editor html="{{html}}"></text-editor>
+        <text-editor html="{{html}}">
+          <paper-button raised on-tap="submit">SUBMIT</paper-button>
+        </text-editor>
     </iron-collapse>
 
 
@@ -41,6 +45,13 @@
       toggle: function() {
         this.$.collapse.toggle();
         this.$.collapsePanel.toggle();
+      },
+      submit: function() {
+        var post = new Object();
+        post.html = this.html;
+        post.title = this.title;
+        var ref = new Firebase('https://waverleydash.firebaseio.com/blog/posts/' + this.title);
+        ref.set(post);
       },
     });
   </script>
