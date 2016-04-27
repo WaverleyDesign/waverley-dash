@@ -7,10 +7,10 @@
     </style>
 
 
-    <template is="dom-repeat" items="{{posts}}" as="post" index-as="index">
-      <collapsible-editor title="{{post.title}}"
-          author="{{post.author}}" date="{{post.date}}"
-          tags="{{post.tags}}" html="{{post.html}}"
+    <template is="dom-repeat" items="{{posts}}" index-as="index">
+      <collapsible-editor title="{{item.title}}"
+          author="{{item.author}}" date="{{item.date}}"
+          tags="{{item.tags}}" html="{{item.html}}"
       ></collapsible-editor>
     </template>
 

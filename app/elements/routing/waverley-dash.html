@@ -24,7 +24,7 @@
     <style include="shared-styles"></style>
     <style include="iron-flex iron-flex-alignment"></style>
 
-    <waverley-dash-data posts="{{posts}}" location="{{location}}" modded-location="{{moddedLocation}}"></waverley-dash-data>
+    <firebase-collection location="https://waverleydash.firebaseio.com/blog/posts" data="{{posts}}"></firebase-collection>
 
     <carbon-route route="{{route}}" pattern="/:tabName" data="{{data}}"></carbon-route>
     <paper-scroll-header-panel>

@@ -16,8 +16,6 @@
 
     </style>
 
-    <firebase-document location="https://waverleydash.firebaseio.com" data="{{data}}"></firebase-document>
-
     <iron-collapse opened id="collapsePanel">
       <div class="toggle horizontal layout wrap" on-tap="toggle" >
         <p>
@@ -29,9 +27,9 @@
 
     <iron-collapse id="collapse">
       <div class="toggle-tall" on-tap="toggle">
-        <h1>Title</h1>
+        <h1>{{title}}</h1>
       </div>
-        <text-editor html="{{html}}">
+        <text-editor html="{{html}}" title="{{title}}" author="{{author}}">
           <paper-button raised on-tap="submit">SUBMIT</paper-button>
         </text-editor>
     </iron-collapse>
@@ -42,6 +40,17 @@
   <script>
     Polymer({
       is: 'collapsible-editor',
+      properties: {
+        title: {
+          type: String,
+        },
+        author: {
+          type: String,
+        },
+        html: {
+          type: String,
+        },
+      },
       toggle: function() {
         this.$.collapse.toggle();
         this.$.collapsePanel.toggle();
@@ -50,7 +59,8 @@
         var post = new Object();
         post.html = this.html;
         post.title = this.title;
-        var ref = new Firebase('https://waverleydash.firebaseio.com/blog/posts/' + this.title);
+        post.author = this.author;
+        var ref = new Firebase('https://waverleydash.firebaseio.com/blog/posts/' + post.title);
         ref.set(post);
       },
     });
