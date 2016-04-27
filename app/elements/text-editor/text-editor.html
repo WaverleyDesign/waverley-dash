@@ -77,11 +77,15 @@
 			.suffix {
 				color: var(--paper-red-500);
 			}
+
+			div [hidden] {
+				display: none;
+			}
     </style>
     <!--<iron-ajax url="../README.md" handle-as="text" last-response="{{readme}}" auto on-response="_readmeOrValue"></iron-ajax>-->
     <paper-material id="editor" class="fit vertical layout" elevation="1">
 
-<div class="top-bar">
+<div class="top-bar" hidden="{{hideTitleEditor}}">
 	<paper-input no-label-float value="{{title}}" label="Title" id="titleInput">
 		<div suffix class="suffix">*</div>
 	</paper-input>

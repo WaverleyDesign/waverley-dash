@@ -20,7 +20,7 @@
           All good to post?
         </p>
         <div class="buttons">
-          <paper-button dialog-accept on-tap="confirmSubmit">Confirm</paper-button>
+          <paper-button dialog-confirm on-tap="confirmSubmit">Confirm</paper-button>
           <paper-button dialog-dismiss>keep editing</paper-button>
         </div>
       </paper-dialog>
@@ -54,7 +54,13 @@
         post.html = this.html;
         post.date = new Date();
         var ref = new Firebase('https://waverleydash.firebaseio.com/blog/posts/');
-        ref.push(post)
+        ref.push(post);
+        this.title = "";
+        this.author = "";
+        this.html = "";
+        this.date = "";
+        this.hidden = true;
+        this.fire('submitConfirmed');
       },
     });
   </script>

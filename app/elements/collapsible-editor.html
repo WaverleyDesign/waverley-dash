@@ -13,6 +13,11 @@
       height: 64px;
       border: 1px solid var(--accent-color);
     }
+    paper-input.big {
+      --paper-input-container-input: {
+        font-size: 48px;
+      };
+    }
 
     </style>
 
@@ -26,10 +31,11 @@
     </iron-collapse>
 
     <iron-collapse id="collapse">
-      <div class="toggle-tall" on-tap="toggle">
-        <h1>{{title}}</h1>
+      <div>
+        <paper-input label="" class="big" value="{{title}}"></paper-input>
+        <paper-icon-button icon="close" on-tap="toggle"></paper-icon-button>
       </div>
-        <text-editor html="{{html}}" title="{{title}}" author="{{author}}">
+        <text-editor hide-title-editor="true" html="{{html}}" title="{{title}}" author="{{author}}">
           <paper-button raised on-tap="submit">SUBMIT</paper-button>
         </text-editor>
     </iron-collapse>
