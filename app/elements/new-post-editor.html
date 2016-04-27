@@ -6,25 +6,26 @@
       div [hidden] !important {
         display: none;
       }
-
-      paper-dialog {
-        width: 100%;
-        height: 100%;
-        overflow-x: auto;
-        overflow-y: scroll;
-      }
     </style>
 
-    <!-- <div hidden="{{hidden}}">
+    <div hidden="{{hidden}}">
 
-      <text-editor></text-editor>
+      <text-editor html="{{html}}" title="{{title}}" author="{{author}}">
+        <paper-button raised on-tap="submit">Submit</paper-button>
+      </text-editor>
 
-    </div> -->
+      <paper-dialog id="dialog">
+        <h2>Confirm Submit</h2>
+        <p>
+          All good to post?
+        </p>
+        <div class="buttons">
+          <paper-button dialog-accept on-tap="confirmSubmit">Confirm</paper-button>
+          <paper-button dialog-dismiss>keep editing</paper-button>
+        </div>
+      </paper-dialog>
 
-    <paper-dialog >
-
-
-    </paper-dialog>
+    </div>
 
   </template>
   <script>
@@ -37,12 +38,24 @@
         },
       },
       newPost: function() {
-          if (this.hidden == true) {
-            this.hidden = false;
-          } else if (this.hidden == false) {
-            this.hidden = true;
-          }
-      }
+        if (this.hidden == true) {
+          this.hidden = false;
+        } else if (this.hidden == false) {
+          this.hidden = true;
+        }
+      },
+      submit: function() {
+        this.$.dialog.toggle();
+      },
+      confirmSubmit: function() {
+        var post = new Object();
+        post.title = this.title;
+        post.author = this.author;
+        post.html = this.html;
+        post.date = new Date();
+        var ref = new Firebase('https://waverleydash.firebaseio.com/blog/posts/');
+        ref.push(post)
+      },
     });
   </script>
 </dom-module>

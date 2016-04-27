@@ -6,13 +6,15 @@
 
     </style>
 
+<div hidden="{{hidden}}">
+  <template is="dom-repeat" items="{{posts}}" index-as="index">
+    <collapsible-editor title="{{item.title}}"
+        author="{{item.author}}" date="{{item.date}}"
+        tags="{{item.tags}}" html="{{item.html}}"
+    ></collapsible-editor>
+  </template>
+</div>
 
-    <template is="dom-repeat" items="{{posts}}" index-as="index">
-      <collapsible-editor title="{{item.title}}"
-          author="{{item.author}}" date="{{item.date}}"
-          tags="{{item.tags}}" html="{{item.html}}"
-      ></collapsible-editor>
-    </template>
 
 
 
@@ -20,6 +22,13 @@
   <script>
     Polymer({
       is: 'blogroll-editor',
+      toggle: function() {
+        if (this.hidden == true) {
+          this.hidden = false;
+        } else if (this.hidden == false) {
+          this.hidden = true;
+        }
+      },
     });
   </script>
 </dom-module>

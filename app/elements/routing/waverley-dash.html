@@ -39,6 +39,7 @@
         <paper-tabs selected='{{data.tabName}}' attr-for-selected="name">
           <paper-tab name='overview'>OVERVIEW</paper-tab>
           <paper-tab name='blog'>BLOG</paper-tab>
+          <paper-tab name='settings'>SETTINGS</paper-tab>
         </paper-tabs>
       </div>
 
@@ -55,6 +56,10 @@
 
           <neon-animatable class="vertical layout center" name='blog'>
             <blog-editor-page posts="{{posts}}"></blog-editor-page>
+          </neon-animatable>
+
+          <neon-animatable class="vertical layout center" name='settings'>
+            <settings-page></settings-page>
           </neon-animatable>
 
         </neon-animated-pages>
