@@ -3,22 +3,46 @@
     <style include="shared-styles"></style>
     <style include="iron-flex iron-flex-alignment"></style>
     <style>
-      paper-fab {
-        bottom: 32px;
-        right: 32px;
-        position: fixed;
+      div [hidden] !important {
+        display: none;
+      }
+
+      paper-dialog {
+        width: 100%;
+        height: 100%;
+        overflow-x: auto;
+        overflow-y: scroll;
       }
     </style>
 
+    <!-- <div hidden="{{hidden}}">
+
+      <text-editor></text-editor>
+
+    </div> -->
+
+    <paper-dialog >
 
 
-    <paper-fab icon="add" on-tap="newPost"></paper-fab>
-
+    </paper-dialog>
 
   </template>
   <script>
     Polymer({
       is: 'new-post-editor',
+      properties: {
+        hidden: {
+          type: Boolean,
+          value: true
+        },
+      },
+      newPost: function() {
+          if (this.hidden == true) {
+            this.hidden = false;
+          } else if (this.hidden == false) {
+            this.hidden = true;
+          }
+      }
     });
   </script>
 </dom-module>

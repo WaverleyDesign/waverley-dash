@@ -3,18 +3,27 @@
     <style include="shared-styles"></style>
     <style include="iron-flex iron-flex-alignment"></style>
     <style>
-
+      paper-fab {
+        bottom: 32px;
+        right: 32px;
+        position: fixed;
+      }
     </style>
 
     <blogroll-editor posts="{{posts}}"></blogroll-editor>
 
-    <new-post-editor></new-post-editor>
+    <paper-fab icon="add" on-tap="newPost"></paper-fab>
+    <new-post-editor id="newPostEditor"></new-post-editor>
 
 
   </template>
   <script>
     Polymer({
       is: 'blog-editor-page',
+
+      newPost: function() {
+        this.$.newPostEditor.newPost();
+      },
     });
   </script>
 </dom-module>
