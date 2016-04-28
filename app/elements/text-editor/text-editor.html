@@ -35,7 +35,7 @@
 
 
 			.top-bar {
-				background-color: var(--accent-color);
+				background-color: ;
 				margin: 0px;
 				padding: 16px;
 			}
@@ -59,7 +59,7 @@
 
 			wysiwyg-e {
 				--wysiwyg-toolbar: {
-					background-color: var(--dark-accent-color);
+					background-color: var(--toolbar-color);
 					color: var(--primary-text-color)
 				};
         height: 400px;
@@ -83,7 +83,6 @@
 			}
     </style>
     <!--<iron-ajax url="../README.md" handle-as="text" last-response="{{readme}}" auto on-response="_readmeOrValue"></iron-ajax>-->
-    <paper-material id="editor" class="fit vertical layout" elevation="1">
 
 <div class="top-bar" hidden="{{hideTitleEditor}}">
 	<paper-input no-label-float value="{{title}}" label="Title" id="titleInput">
@@ -116,7 +115,6 @@
 
 			<content></content>
 
-    </paper-material>
   </template>
   <script>
 		Polymer({

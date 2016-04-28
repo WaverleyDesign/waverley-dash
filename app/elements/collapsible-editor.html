@@ -1,4 +1,4 @@
-<dom-module id="collapsible-editor">
+ulp<dom-module id="collapsible-editor">
   <template>
     <style include="shared-styles"></style>
     <style include="iron-flex iron-flex-alignment"></style>
@@ -6,39 +6,67 @@
     .toggle {
       width: 100%;
       height: 32px;
-      border: 1px solid var(--accent-color);
     }
     .toggle-tall {
       width: 100%;
       height: 64px;
-      border: 1px solid var(--accent-color);
     }
     paper-input.big {
       --paper-input-container-input: {
-        font-size: 48px;
+        font-size: 36px;
       };
+    }
+
+    text-editor {
+      --toolbar-color: var(--dark-accent-color);
+    }
+
+    .editor-toolbar {
+      padding: 16px;
+      @apply(--layout-horizontal);
+      @apply(--layout-end);
+      background-color: var(--accent-color);
+    }
+
+    .divOne {
+      width: 60%;
+    }
+    .divTwo {
+      width: 40%;
     }
 
     </style>
 
-    <iron-collapse opened id="collapsePanel">
-      <div class="toggle horizontal layout wrap" on-tap="toggle" >
-        <p>
-          {{title}}
-        </p>
-        <span class="flex"></span>
-      </div>
-    </iron-collapse>
+    <paper-material elevation="1">
+      <iron-collapse opened id="collapsePanel">
+        <div class="toggle horizontal layout wrap" on-tap="toggle">
+          <p>
+            {{title}}
+          </p>
+          <span class="flex"></span>
+        </div>
+      </iron-collapse>
 
-    <iron-collapse id="collapse">
-      <div>
-        <paper-input label="" class="big" value="{{title}}"></paper-input>
-        <paper-icon-button icon="close" on-tap="toggle"></paper-icon-button>
-      </div>
-        <text-editor hide-title-editor="true" html="{{html}}" title="{{title}}" author="{{author}}">
-          <paper-button raised on-tap="submit">SUBMIT</paper-button>
-        </text-editor>
-    </iron-collapse>
+      <iron-collapse id="collapse">
+        <div class="horizontal layout editor-toolbar">
+          <div class="divOne">
+            <paper-input no-label-float label="Title" class="big" value="{{title}}"></paper-input>
+          </div>
+          <div class="vertical layout divTwo">
+            <div class="end-justified horizontal layout">
+              <paper-icon-button icon="close" on-tap="toggle"></paper-icon-button>
+            </div>
+            <div class="end-justified horizontal layout">
+              <p class="date">{{date}}</p>
+            </div>
+          </div>
+        </div>
+          <text-editor hide-title-editor="true" html="{{html}}" title="{{title}}" author="{{author}}">
+            <paper-button raised on-tap="submit">SUBMIT</paper-button>
+          </text-editor>
+      </iron-collapse>
+    </paper-material>
+
 
 
 
