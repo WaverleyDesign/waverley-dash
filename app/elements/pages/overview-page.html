@@ -14,7 +14,7 @@
   width: 50%;
   margin: 4px;
   flex: 0 0 auto;
-  color: white;
+  color: black;
 }
     </style>
     <style include="iron-flex iron-flex-alignment"></style>
@@ -26,7 +26,44 @@
       </paper-card>
       <paper-card heading="{{views}} Today">
       </paper-card>
-      <paper-card heading="{{comments}} Today">
+      <paper-card>
+
+        <google-analytics-dashboard>
+
+    <google-analytics-view-selector></google-analytics-view-selector>
+    <google-analytics-date-selector></google-analytics-date-selector>
+
+    <google-analytics-chart
+      type="area"
+      metrics="ga:sessions"
+      dimensions="ga:date">
+      <h3>Site Traffic</h3>
+    </google-analytics-chart>
+
+    <google-analytics-chart
+      type="column"
+      metrics="ga:avgPageLoadTime"
+      dimensions="ga:date">
+      <h3>Average Page Load Times</h3>
+    </google-analytics-chart>
+
+    <google-analytics-chart
+      type="geo"
+      metrics="ga:users"
+      dimensions="ga:country">
+      <h3>Users by Country</h3>
+    </google-analytics-chart>
+
+    <google-analytics-chart
+      type="pie"
+      metrics="ga:pageviews"
+      dimensions="ga:browser"
+      sort="-ga:pageviews"
+      max-results="6">
+      <h3>Pageviews by Browser</h3>
+    </google-analytics-chart>
+
+  </google-analytics-dashboard>
       </paper-card>
     </div>
 

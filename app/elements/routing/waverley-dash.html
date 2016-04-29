@@ -24,47 +24,66 @@
     <style include="shared-styles"></style>
     <style include="iron-flex iron-flex-alignment"></style>
 
+
+
     <firebase-collection location="https://waverleydash.firebaseio.com/blog/posts" data="{{posts}}"></firebase-collection>
 
     <carbon-route route="{{route}}" pattern="/:tabName" data="{{data}}"></carbon-route>
-    <paper-scroll-header-panel>
-      <div class="paper-header">
-        <paper-toolbar>
+
+    <paper-drawer-panel force-narrow="true">
+      <paper-header-panel drawer>
+        <paper-toolbar class="medium-tall">
           <div class="app-name">
-            <span class="waverley">Waverley</span><span class="dash">Dash</span>
+            Menu
           </div>
-          <span class="flex"></span>
-          <paper-icon-button icon="more-vert"></paper-icon-button>
         </paper-toolbar>
-        <paper-tabs selected='{{data.tabName}}' attr-for-selected="name">
-          <paper-tab name='overview'>OVERVIEW</paper-tab>
-          <paper-tab name='blog'>BLOG</paper-tab>
-          <paper-tab name='settings'>SETTINGS</paper-tab>
-        </paper-tabs>
-      </div>
+        <google-signin
+          client-id="413722094262-4149pnqs89rldp7k15ht8q7fta7dr8ec.apps.googleusercontent.com"
+          scopes="https://www.googleapis.com/auth/analytics">
+        </google-signin>
+      </paper-header-panel>
+      <paper-scroll-header-panel main>
+        <div class="paper-header">
+          <paper-toolbar>
+            <paper-icon-button icon="menu" paper-drawer-toggle></paper-icon-button>
+            <div class="app-name">
+              <span class="waverley">Waverley</span><span class="dash">Dash</span>
+            </div>
+            <span class="flex"></span>
+            <paper-icon-button icon="more-vert"></paper-icon-button>
+          </paper-toolbar>
+          <paper-tabs selected='{{data.tabName}}' attr-for-selected="name">
+            <paper-tab name='overview'>OVERVIEW</paper-tab>
+            <paper-tab name='blog'>BLOG</paper-tab>
+            <paper-tab name='settings'>SETTINGS</paper-tab>
+          </paper-tabs>
+        </div>
 
-      <div>
-        <neon-animated-pages id='animatedPages'
-                             selected='{{selectedPage}}'
-                             entry-animation='{{entryAnimation}}'
-                             exit-animation='{{exitAnimation}}'
-                             attr-for-selected="name">
+        <div>
+          <neon-animated-pages id='animatedPages'
+                               selected='{{selectedPage}}'
+                               entry-animation='{{entryAnimation}}'
+                               exit-animation='{{exitAnimation}}'
+                               attr-for-selected="name">
 
-          <neon-animatable class="vertical layout center" name='overview'>
-            <overview-page views="56" comments="28"></overview-page>
-          </neon-animatable>
+            <neon-animatable class="vertical layout center" name='overview'>
+              <overview-page views="56" comments="28"></overview-page>
+            </neon-animatable>
 
-          <neon-animatable class="vertical layout center" name='blog'>
-            <blog-editor-page posts="{{posts}}"></blog-editor-page>
-          </neon-animatable>
+            <neon-animatable class="vertical layout center" name='blog'>
+              <blog-editor-page posts="{{posts}}"></blog-editor-page>
+            </neon-animatable>
 
-          <neon-animatable class="vertical layout center" name='settings'>
-            <settings-page></settings-page>
-          </neon-animatable>
+            <neon-animatable class="vertical layout center" name='settings'>
+              <settings-page></settings-page>
+            </neon-animatable>
 
-        </neon-animated-pages>
-      </div>
-    </paper-scroll-header-panel>
+          </neon-animated-pages>
+        </div>
+      </paper-scroll-header-panel>
+    </paper-drawer-panel>
+
+
 
 
 
