@@ -10,7 +10,8 @@
     "polymer": "Polymer/polymer#^1.2.0",
     "carbon-route": "PolymerElements/carbon-route#^0.8.4",
     "neon-animation": "PolymerElements/neon-animation#^1.2.2",
-    "firebase-element": "GoogleWebComponents/firebase-element#^1.0.12"
+    "firebase-element": "GoogleWebComponents/firebase-element#^1.0.12",
+    "google-analytics": "GoogleWebComponents/google-analytics#^1.2.1"
   },
   "devDependencies": {
     "web-component-tester": "^4.0.0"
