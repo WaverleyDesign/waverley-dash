@@ -16,14 +16,35 @@
      <div hidden$="{{!homeActive}}">
        Main page!<br><br>
        <a href="#/dash/">dash page</a>
+       <h1>{{user.uid}}</h1>
      </div>
      <div hidden$="{{!dashActive}}">
 
        <!-- waverley-dash is an element that handles routing within itself.
             view-source for more details!
          -->
-       <waverley-dash route="{{dashRoute}}" location="{{location}}"></waverley-dash>
-       <a href="#/">Back to main page</a>
+       <waverley-dash
+              route="{{dashRoute}}"
+              location="[[firebaseURL]]"
+              on-sign-out="signOut"
+              posts="{{posts}}"
+        ></waverley-dash>
+
+
+       <waverley-dash-data
+              location="[[firebaseURL]]"
+              posts="{{posts}}"
+              user="{{user}}"
+       ></waverley-dash-data>
+
+       <todo-auth
+              id="auth"
+              user="{{user}}"
+              location="[[firebaseURL]]"
+              user="{{user}}"
+       ></todo-auth>
+
+
      </div>
    </template>
    <script>
@@ -35,8 +56,14 @@
            if (!this.route.path) {
              this.set('route.path', '/');
            }
+
          });
-       }
+
+         this.firebaseURL = 'https://waverleydash.firebaseio.com';
+       },
+       signOut: function() {
+         this.$.auth.signOut();
+       },
      });
    </script>
  </dom-module>

@@ -37,10 +37,10 @@
             Menu
           </div>
         </paper-toolbar>
-        <google-signin
+        <!-- <google-signin
           client-id="413722094262-4149pnqs89rldp7k15ht8q7fta7dr8ec.apps.googleusercontent.com"
           scopes="https://www.googleapis.com/auth/analytics">
-        </google-signin>
+        </google-signin> -->
       </paper-header-panel>
       <paper-scroll-header-panel main>
         <div class="paper-header">
@@ -50,7 +50,7 @@
               <span class="waverley">Waverley</span><span class="dash">Dash</span>
             </div>
             <span class="flex"></span>
-            <paper-icon-button icon="more-vert"></paper-icon-button>
+            <paper-icon-button icon="more-vert" on-tap="signOut"></paper-icon-button>
           </paper-toolbar>
           <paper-tabs selected='{{data.tabName}}' attr-for-selected="name">
             <paper-tab name='overview'>OVERVIEW</paper-tab>
@@ -96,6 +96,9 @@
           route: {
             type: Object,
             notify: true
+          },
+          posts: {
+            type: Array
           }
         },
         observers: [
@@ -122,6 +125,9 @@
 
           window.scroll(0,0);
           // slide-from-left-animation
+        },
+        signOut: function() {
+          this.fire('sign-out');
         }
       });
     });

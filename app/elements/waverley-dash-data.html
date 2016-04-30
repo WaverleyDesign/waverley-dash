@@ -1,7 +1,12 @@
 <dom-module id="waverley-dash-data">
   <template>
 
-    <firebase-collection data="{{posts}}" location="https://waverleydash.firebaseio.com/blog/posts"></firebase-collection>
+    <firebase-collection data="{{fbPosts}}" on-firebase-value="_firebaseLoaded" location="{{userLocation}}"></firebase-collection>
+
+    <iron-localstorage name="waverley-dash-posts"
+                         on-iron-localstorage-load="_backupLoaded"
+                         value="{{backupPosts}}">
+      </iron-localstorage>
 
   </template>
   <script>
@@ -9,18 +14,37 @@
       is: 'waverley-dash-data',
       properties: {
         posts: {
-          type: Object,
-          value: '',
           notify: true
         },
-        location: {
-          type: String
+        user: {
+          observer: '_userChanged'
         },
-        moddedLocation: {
-          type: String,
-          notify: true
+        _firebaseConnected: {
+          value: false
         }
       },
+
+      // Setup user ref in firebase if auth succeeds
+      _userChanged: function(user) {
+        if (user) {
+          this.userLocation = [this.location, 'users', this.user.uid].join('/');
+        }
+      },
+
+      _firebaseLoaded: function() {
+        this._firebaseConnected = true;
+        this.todos = this.fbTodos;
+        this.backupTodos = this.fbTodos;
+        this.linkPaths('fbTodos', 'todos');
+        this.linkPaths('backupTodos', 'todos');
+      },
+
+      _backupLoaded: function() {
+        if (!this._firebaseConnected) {
+          this.todos = this.backupTodos.slice();
+        }
+      }
+
     });
   </script>
 </dom-module>
