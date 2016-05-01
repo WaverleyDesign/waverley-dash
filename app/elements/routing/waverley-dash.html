@@ -24,10 +24,6 @@
     <style include="shared-styles"></style>
     <style include="iron-flex iron-flex-alignment"></style>
 
-
-
-    <firebase-collection location="https://waverleydash.firebaseio.com/blog/posts" data="{{posts}}"></firebase-collection>
-
     <carbon-route route="{{route}}" pattern="/:tabName" data="{{data}}"></carbon-route>
 
     <paper-drawer-panel force-narrow="true">
@@ -71,7 +67,12 @@
             </neon-animatable>
 
             <neon-animatable class="vertical layout center" name='blog'>
-              <blog-editor-page posts="{{posts}}"></blog-editor-page>
+              <new-post-editor on-add-post="addPost"></new-post-editor>
+
+              <post-list posts="{{posts}}"
+                         filter-by="{{route}}"
+                         on-delete-post="deletePost">
+              </post-list>
             </neon-animatable>
 
             <neon-animatable class="vertical layout center" name='settings'>
@@ -82,8 +83,6 @@
         </div>
       </paper-scroll-header-panel>
     </paper-drawer-panel>
-
-
 
 
 
@@ -126,9 +125,33 @@
           window.scroll(0,0);
           // slide-from-left-animation
         },
+
+        addPost: function(e) {
+          this.push('posts', {
+            title: e.detail.title,
+            author: e.detail.author,
+            html: e.detail.html,
+            isComplete: false
+          });
+        },
+
+        deletePost: function(e) {
+          this.arrayDelete('posts', e.detail.post);
+        },
+
+        clearPosts: function() {
+          for (var i = 0; i < this.posts.length; i++) {
+            var post = this.posts[i];
+            if (post.isComplete) {
+              this.splice('posts', i--, 1);
+            }
+          }
+        },
+
         signOut: function() {
           this.fire('sign-out');
-        }
+        },
+
       });
     });
   </script>

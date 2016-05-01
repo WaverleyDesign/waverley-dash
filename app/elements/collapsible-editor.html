@@ -77,25 +77,35 @@
       properties: {
         title: {
           type: String,
+          notify: true
         },
         author: {
           type: String,
+          notify: true
         },
         html: {
           type: String,
+          notify: true
         },
+        postObject: {
+          type: Object,
+          notify: true
+        }
       },
       toggle: function() {
         this.$.collapse.toggle();
         this.$.collapsePanel.toggle();
       },
       submit: function() {
-        var post = new Object();
-        post.html = this.html;
-        post.title = this.title;
-        post.author = this.author;
-        var ref = new Firebase('https://waverleydash.firebaseio.com/blog/posts/' + post.title);
-        ref.set(post);
+        // var post = new Object();
+        // post.html = this.html;
+        // post.title = this.title;
+        // post.author = this.author;
+        // var ref = new Firebase('https://waverleydash.firebaseio.com/blog/posts/' + post.title);
+        // ref.set(post);
+        // this.postObject = {title: this.title, author: this.title, html: this.html};
+        // this.fire('update-post', this.postObject);
+      //  console.log(this.postObject);
       },
     });
   </script>

@@ -8,11 +8,13 @@
       }
     </style>
 
-    <div hidden="{{hidden}}">
+    <!-- <div hidden="{{hidden}}">
+<paper-material elevation="1">
+  <text-editor html="{{html}}" title="{{title}}" author="{{author}}">
+    <paper-button raised on-tap="submit">Submit</paper-button>
+  </text-editor>
+</paper-material>
 
-      <text-editor html="{{html}}" title="{{title}}" author="{{author}}">
-        <paper-button raised on-tap="submit">Submit</paper-button>
-      </text-editor>
 
       <paper-dialog id="dialog">
         <h2>Confirm Submit</h2>
@@ -25,7 +27,17 @@
         </div>
       </paper-dialog>
 
-    </div>
+    </div> -->
+
+
+      <text-editor id="textEditor" title="{{title}}" author="{{author}}" html="{{html}}">
+
+      </text-editor>
+
+<paper-button on-tap="_add">Add</paper-button>
+
+
+
 
   </template>
   <script>
@@ -34,7 +46,7 @@
       properties: {
         hidden: {
           type: Boolean,
-          value: true
+          value: false
         },
       },
       newPost: function() {
@@ -44,23 +56,11 @@
           this.hidden = true;
         }
       },
-      submit: function() {
-        this.$.dialog.toggle();
-      },
-      confirmSubmit: function() {
-        var post = new Object();
-        post.title = this.title;
-        post.author = this.author;
-        post.html = this.html;
-        post.date = new Date();
-        var ref = new Firebase('https://waverleydash.firebaseio.com/blog/posts/');
-        ref.push(post);
-        this.title = "";
-        this.author = "";
-        this.html = "";
-        this.date = "";
-        this.hidden = true;
-        this.fire('submitConfirmed');
+      _add: function() {
+        if (this.$.textEditor.html) {
+          this.fire('add-post', {title: this.$.textEditor.title, author: this.$.textEditor.author, html: this.$.textEditor.html});
+          this.$.postInput.value = null;
+        }
       },
     });
   </script>

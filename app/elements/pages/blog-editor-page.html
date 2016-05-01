@@ -13,7 +13,8 @@
     <blogroll-editor id="blogrollEditor" posts="{{posts}}"></blogroll-editor>
 
     <paper-fab icon="add" on-tap="newPost"></paper-fab>
-    <new-post-editor id="newPostEditor"></new-post-editor>
+
+
 
 
   </template>
@@ -24,6 +25,9 @@
       newPost: function() {
         this.$.newPostEditor.newPost();
         this.$.blogrollEditor.toggle();
+      },
+      fireAddPost: function(e) {
+        this.fire('add-post', e.detail);
       },
     });
   </script>

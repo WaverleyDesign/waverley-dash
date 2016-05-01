@@ -1,0 +1,164 @@
+<dom-module id="blog-card">
+  <template>
+    <style>
+      :host {
+        display: block;
+      }
+
+      paper-material {
+        width: 80%;
+        margin: auto;
+        background: white;
+      }
+
+      .special {
+        color: var(--accent-color);
+        font-family: "Audiowide", cursive;
+      }
+
+      comment-card {
+        margin: 0px -16px;
+      }
+
+      div.hr {
+        height: 1px;
+        background-color: #fafafa;
+        margin: 16px -16px 0px -16px;
+      }
+    </style>
+    <style include="shared-styles"></style>
+    <style include="iron-flex iron-flex-alignment"></style>
+
+
+<paper-material elevation="3">
+  <h1>{{title}}</h1>
+  <h6>By {{author}}</h6>
+  <div id="container">
+
+  </div>
+  <div class="hr"></div>
+  <div on-tap="openCommentSection" class="openCommentSectionToggle horizontal layout center">
+    <paper-button>Comments (<span>{{numberOfComments}}</span>)</paper-button>
+    <span class="flex"></span>
+    <paper-icon-button icon="arrow-drop-down"></paper-icon-button>
+  </div>
+  <iron-collapse id="commentSection">
+    <div class="comments-section">
+      <firebase-collection id="firebase" location="{{blogLocation}}" data="{{comments}}"></firebase-collection>
+      <template is="dom-repeat" items="{{comments}}" index-as="index">
+        <comment-card
+          comment="{{item.comment}}" author="{{item.author}}"
+          user="{{item.user}}" location="{{blogLocation}}/{{__firebaseKey__}}"
+          delete-able-comment="{{_computeDeleteAble(item)}}" on-delete="deleteComment"
+        ></comment-card>
+      </template>
+    </div>
+    <div class="add-comment-section">
+
+
+      <paper-button on-tap="openCommenter">Add comment</paper-button>
+      <iron-collapse id="collapse">
+        <paper-dropdown-menu selected-item-label="{{commentAuthor}}" label="Author">
+          <paper-listbox class="dropdown-content">
+            <paper-item>anonymous</paper-item>
+            <paper-item>unknown</paper-item>
+            <paper-item>carcharodontosaurus</paper-item>
+            <paper-item>diplodocus</paper-item>
+          </paper-listbox>
+        </paper-dropdown-menu>
+
+
+            <paper-textarea value="{{commentBody}}" maxlength="140" char-counter="true"></paper-textarea>
+
+            <paper-button raised on-tap="postComment">Post comment</paper-button>
+      </iron-collapse>
+
+    </div>
+  </iron-collapse>
+
+</paper-material>
+
+
+  </template>
+  <script>
+    Polymer({
+      is: 'blog-card',
+      properties: {
+        html: {
+          type: String,
+        },
+        limitToFirst: {
+          type: Number,
+          value: 10
+        },
+        user: {
+          type: String,
+          notify: true,
+        },
+        title: {
+          type: String
+        },
+        author: {
+          type: String
+        },
+        blogLocation: {
+          type: String,
+        },
+        deleteAbleComment: {
+          type: Boolean,
+          value: false,
+          computed: 'computeDeleteAble(e)'
+        },
+      },
+      ready: function() {
+        console.log(this.user);
+        var domBind = document.createElement('template', 'dom-bind');
+        domBind.greeting = this.html;
+        var doc = domBind.content.ownerDocument;
+        var elem = doc.createElement('div');
+        elem.innerHTML = this.html;
+        domBind.content.appendChild(elem);
+        this.$.container.appendChild(domBind);
+        //
+        this.blogLocation = 'https://asf45gsare.firebaseio.com/blog/posts/' + this.title + '/comments';
+
+        this.numberOfComments = Object.keys(this.$.firebase.data).length;
+        console.log(this.numberOfComments);
+      },
+      openCommenter: function() {
+        this.$.collapse.toggle();
+      },
+      openCommentSection: function() {
+        this.$.commentSection.toggle();
+      },
+      postComment: function() {
+        var comment = new Object();
+        comment.comment = this.commentBody;
+        comment.author = this.commentAuthor;
+        comment.user = this.user;
+        console.log(comment);
+        var ref = new Firebase('https://asf45gsare.firebaseio.com/blog/posts/' + this.title + '/comments');
+				ref.push(comment);
+      },
+      _computeDeleteAble: function(item) {
+        var result = item;
+        if (result.user == this.user) {
+          console.log('a match!');
+          return true;
+        } else {
+          console.log("I don’t know why it affects me like this when you’re not even mine to consider.");
+          return false;
+        }
+      },
+      deleteComment: function(e) {
+       var model = e.model;
+       console.log('Daisychain\u2122. Deleting dumb comments since 1987.');
+
+      var ref = new Firebase('https://asf45gsare.firebaseio.com/blog/posts/' + this.title + '/comments/' + model.item.__firebaseKey__);
+      ref.remove();
+     },
+
+
+    });
+  </script>
+</dom-module>

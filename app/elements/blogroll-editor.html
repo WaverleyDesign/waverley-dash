@@ -6,8 +6,16 @@
 
     </style>
 
+<span hidden="[[_postsEmpty(posts.length)]]">
+  <h1>No blog posts yet!</h1>
+  <p>
+    Hit the green '+' button below to write a new one.
+  </p>
+</span>
+
+
 <div hidden="{{hidden}}">
-  <template is="dom-repeat" items="{{posts}}" index-as="index">
+  <template is="dom-repeat" items="{{test}}">
     <collapsible-editor title="{{item.title}}"
         author="{{item.author}}" date="{{item.date}}"
         tags="{{item.tags}}" html="{{item.html}}"
@@ -29,6 +37,14 @@
           this.hidden = true;
         }
       },
+      _postsEmpty: function(length) {
+        return !!length;
+      },
+      ready: function() {
+        this.test = [
+          {author: 'Dude', html:'<b>Test</b>',title:'This is the title'}
+        ];
+      }
     });
   </script>
 </dom-module>

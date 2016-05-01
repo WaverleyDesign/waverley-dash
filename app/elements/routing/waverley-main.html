@@ -30,19 +30,22 @@
               posts="{{posts}}"
         ></waverley-dash>
 
+       <post-auth id="auth"
+           user="{{user}}"
+           location="[[firebaseURL]]"
+           user="{{user}}">
+</post-auth>
 
-       <waverley-dash-data
-              location="[[firebaseURL]]"
-              posts="{{posts}}"
-              user="{{user}}"
-       ></waverley-dash-data>
+<post-data location="[[firebaseURL]]"
+           posts="{{posts}}"
+           user="{{user}}">
+</post-data>
 
-       <todo-auth
-              id="auth"
-              user="{{user}}"
-              location="[[firebaseURL]]"
-              user="{{user}}"
-       ></todo-auth>
+<!-- <post-view class="flex"
+           route="{{route}}"
+           posts="{{posts}}"
+           on-sign-out="signOut">
+</post-view> -->
 
 
      </div>
@@ -64,6 +67,8 @@
        signOut: function() {
          this.$.auth.signOut();
        },
+
+
      });
    </script>
  </dom-module>
