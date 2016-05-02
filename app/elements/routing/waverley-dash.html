@@ -1,4 +1,3 @@
-
 <dom-module id="waverley-dash">
   <template>
     <style>
@@ -76,7 +75,9 @@
             </neon-animatable>
 
             <neon-animatable class="vertical layout center" name='settings'>
-              <settings-page></settings-page>
+              <settings-page
+                user="[[user]]"
+              ></settings-page>
             </neon-animatable>
 
           </neon-animated-pages>

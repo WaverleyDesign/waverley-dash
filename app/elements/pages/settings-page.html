@@ -2,71 +2,30 @@
   <template>
     <style include="shared-styles"></style>
     <style>
+    img {
+      width:200px;
+      height:200px;
+    }
+
 
     </style>
     <style include="iron-flex iron-flex-alignment"></style>
 
+    <h1>Account Details</h1>
+
     <paper-toggle-button checked></paper-toggle-button>
 
-    <firebase-collection location="{{userLocation}}"
-                         data="{{fbPosts}}"
-                         on-firebase-value="_firebaseLoaded">
-    </firebase-collection>
-
-    <!-- Backfill posts from localstorage. This prevents an initial flash while
-         we're waiting to hear from Firebase, and it lets the user see their
-         old posts if they start the app offline.
-         This SHOULD NOT write to Firebase. If the user has cleared their
-         localstorage, it should not nullify everything saved in Firebase. -->
-    <iron-localstorage name="polymer-post"
-                       on-iron-localstorage-load="_backupLoaded"
-                       value="{{backupPosts}}">
-    </iron-localstorage>
-
-    <post-list
-      posts="{{posts}}"
-    ></post-list>
+    <paper-card heading="{{user.google.displayName}}">
+      <div class="card-content">
+        <img src="{{user.google.profileImageURL}}" alt="" />
+      </div>
+      <div class="card-actions"></div>
+    </paper-card>
 
   </template>
   <script>
     Polymer({
       is: 'settings-page',
-      properties: {
-
-        posts: {
-          notify: true
-        },
-
-        user: {
-          observer: '_userChanged'
-        },
-
-        _firebaseConnected: {
-          value: false
-        }
-
-      },
-
-      // Setup user ref in firebase if auth succeeds
-      _userChanged: function(user) {
-        if (user) {
-          this.userLocation = [this.location, 'users', this.user.uid].join('/');
-        };
-      },
-
-      _firebaseLoaded: function() {
-        this._firebaseConnected = true;
-        this.posts = this.fbPosts;
-        this.backupPosts = this.fbPosts;
-        this.linkPaths('fbPosts', 'posts');
-        this.linkPaths('backupPosts', 'posts');
-      },
-
-      _backupLoaded: function() {
-        if (!this._firebaseConnected) {
-          this.posts = this.backupPosts.slice();
-        }
-      }
     });
   </script>
 </dom-module>
