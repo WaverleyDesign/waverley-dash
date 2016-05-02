@@ -6,14 +6,16 @@
       div [hidden] !important {
         display: none;
       }
-    </style>
 
-    <!-- <div hidden="{{hidden}}">
-<paper-material elevation="1">
-  <text-editor html="{{html}}" title="{{title}}" author="{{author}}">
-    <paper-button raised on-tap="submit">Submit</paper-button>
-  </text-editor>
-</paper-material>
+      paper-card {
+        width: 100%;
+        padding: 0px;
+      }
+
+      .card-content {
+        padding: 0px;
+      }
+    </style>
 
 
       <paper-dialog id="dialog">
@@ -22,19 +24,41 @@
           All good to post?
         </p>
         <div class="buttons">
-          <paper-button dialog-confirm on-tap="confirmSubmit">Confirm</paper-button>
+          <paper-button dialog-confirm on-tap="_add">Confirm</paper-button>
           <paper-button dialog-dismiss>keep editing</paper-button>
         </div>
       </paper-dialog>
 
-    </div> -->
 
 
-      <text-editor id="textEditor" title="{{title}}" author="{{author}}" html="{{html}}">
+      <!-- <text-editor id="textEditor" title="{{title}}" author="{{author}}" html="{{html}}">
 
       </text-editor>
 
-<paper-button on-tap="_add">Add</paper-button>
+<paper-button on-tap="_add">Add</paper-button> -->
+
+<paper-card>
+  <div class="card-content">
+    <div class="horizontal layout editor-toolbar">
+      <div class="divOne">
+        <paper-input no-label-float label="Title" class="big" value="{{title}}"></paper-input>
+      </div>
+      <div class="vertical layout divTwo">
+        <div class="end-justified horizontal layout">
+          <paper-icon-button icon="close" on-tap="toggle"></paper-icon-button>
+        </div>
+        <div class="end-justified horizontal layout">
+          <p class="date">{{date}}</p>
+        </div>
+      </div>
+    </div>
+      <text-editor id="textEditor" hide-title-editor="true" html="{{html}}" title="{{title}}" author="{{author}}">
+      </text-editor>
+  </div>
+  <div class="card-actions">
+<paper-button raised on-tap="openDialog">Post</paper-button>
+  </div>
+</paper-card>
 
 
 
@@ -49,6 +73,9 @@
           value: false
         },
       },
+      openDialog: function() {
+        this.$.dialog.toggle();
+      },
       newPost: function() {
         if (this.hidden == true) {
           this.hidden = false;
@@ -59,7 +86,9 @@
       _add: function() {
         if (this.$.textEditor.html) {
           this.fire('add-post', {title: this.$.textEditor.title, author: this.$.textEditor.author, html: this.$.textEditor.html});
-          this.$.postInput.value = null;
+          this.$.textEditor.html = null;
+          this.$.textEditor.title = null;
+          this.$.textEditor.author = null;
         }
       },
     });

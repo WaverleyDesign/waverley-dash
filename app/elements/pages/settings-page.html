@@ -1,4 +1,4 @@
-<dom-module id="settings-page">
+s<dom-module id="settings-page">
   <template>
     <style include="shared-styles"></style>
     <style>
@@ -11,16 +11,19 @@
     </style>
     <style include="iron-flex iron-flex-alignment"></style>
 
-    <h1>Account Details</h1>
+    <paper-material elevation="1">
+      <h1>Account Details</h1>
 
-    <paper-toggle-button checked></paper-toggle-button>
+      <paper-toggle-button checked></paper-toggle-button>
 
-    <paper-card heading="{{user.google.displayName}}">
-      <div class="card-content">
-        <img src="{{user.google.profileImageURL}}" alt="" />
-      </div>
-      <div class="card-actions"></div>
-    </paper-card>
+      <paper-card heading="{{user.google.displayName}}">
+        <div class="card-content">
+          <img src$="{{user.google.profileImageURL}}" alt$="{{user.google.displayName}}" />
+        </div>
+        <div class="card-actions"></div>
+      </paper-card>
+
+    </paper-material>
 
   </template>
   <script>

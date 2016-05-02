@@ -3,7 +3,20 @@
     <style include="shared-styles"></style>
     <style include="iron-flex iron-flex-alignment"></style>
     <style>
+    #posts {
+  @apply(--layout-vertical);
+  @apply(--layout-wrap);
+  height: 344px;
+  width: 100%;
+}
 
+#posts > paper-card {
+  box-sizing: border-box;
+  width: 50%;
+  margin: 4px;
+  flex: 0 0 auto;
+  color: black;
+}
     </style>
 
 <span hidden="[[_postsEmpty(posts.length)]]">
@@ -14,15 +27,40 @@
 </span>
 
 
-<div hidden="{{hidden}}">
+<!-- <div hidden="{{hidden}}">
   <template is="dom-repeat" items="{{test}}">
     <collapsible-editor title="{{item.title}}"
         author="{{item.author}}" date="{{item.date}}"
         tags="{{item.tags}}" html="{{item.html}}"
     ></collapsible-editor>
   </template>
+</div> -->
+
+<div id="posts">
+  <iron-selector selected="{{selected}}" attr-for-selected="name">
+    <template is="dom-repeat"
+              items="{{posts}}"
+              as="post"
+              filter="{{_computeFilter(filterBy)}}"
+              observe="isComplete">
+        <paper-card heading="{{post.title}}" name="{{post.title}}">
+        </paper-card>
+    </template>
+  </iron-selector>
 </div>
 
+
+<iron-pages attr-for-selected="name" selected="{{selected}}">
+  <template is="dom-repeat"
+            items="{{posts}}"
+            as="post"
+            filter="{{_computeFilter(filterBy)}}"
+            observe="isComplete">
+          <section name="{{post.title}}">
+            <paper-input label="Title" value="{{post.title}}"></paper-input>
+          </section>
+  </template>
+</iron-pages>
 
 
 
@@ -30,6 +68,39 @@
   <script>
     Polymer({
       is: 'blogroll-editor',
+      properties: {
+
+        posts: Array,
+
+        filterBy: {
+          type: String,
+          value: 'all'
+        }
+
+      },
+
+      _postsEmpty: function(length) {
+        return !!length;
+      },
+
+      _computeFilter: function(filterBy) {
+        if (filterBy) {
+
+          // If filterBy is 'all', return a filter that always returns
+          // the post
+          if (filterBy === 'all') {
+            return function() {
+              return true;
+            };
+          }
+
+          // Handle 'completed', or its inverse, 'active'
+          var ifComplete = (filterBy === 'completed');
+          return function(item) {
+            return item.isComplete === ifComplete;
+          };
+        }
+      },
       toggle: function() {
         if (this.hidden == true) {
           this.hidden = false;
@@ -40,11 +111,6 @@
       _postsEmpty: function(length) {
         return !!length;
       },
-      ready: function() {
-        this.test = [
-          {author: 'Dude', html:'<b>Test</b>',title:'This is the title'}
-        ];
-      }
     });
   </script>
 </dom-module>
