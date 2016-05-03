@@ -43,7 +43,7 @@
               as="post"
               filter="{{_computeFilter(filterBy)}}"
               observe="isComplete">
-        <paper-card heading="{{post.title}}" name="{{post.title}}">
+        <paper-card heading="{{post.title}}" name="{{post.title}}" on-tap="_onDelete">
         </paper-card>
     </template>
   </iron-selector>
@@ -57,7 +57,7 @@
             filter="{{_computeFilter(filterBy)}}"
             observe="isComplete">
           <section name="{{post.title}}">
-            <paper-input label="Title" value="{{post.title}}"></paper-input>
+            <text-editor-updater on-delete="" post="{{post}}"></text-editor-updater>
           </section>
   </template>
 </iron-pages>
@@ -77,6 +77,11 @@
           value: 'all'
         }
 
+      },
+
+
+      _onDelete: function() {
+        this.fire('delete-post', {post: this.post});
       },
 
       _postsEmpty: function(length) {

@@ -1,0 +1,31 @@
+<dom-module id="text-editor-updater">
+  <template>
+    <style include="shared-styles"></style>
+    <style include="iron-flex iron-flex-alignment"></style>
+
+    <span>{{post.__firebaseKey__}}</span>
+    <text-editor id="textEditor" title="{{post.newTitle}}" author="{{post.newAuthor}}" html="{{post.newHtml}}"></text-editor>
+    <paper-input label="" value="{{post.newValue}}"></paper-input>
+    <paper-button raised on-tap="_onUpdate">Update</paper-button>
+    <paper-button raised on-tap="_onDelete">delete</paper-button>
+  </template>
+  <script>
+    Polymer({
+      is: 'text-editor-updater',
+      properties: {
+        post: Object
+      },
+
+      _onDelete: function() {
+        this.fire('delete-post', {post: this.post});
+      },
+      // _onUpdate: function() {
+      //   this.fire('update-post', {post: this.post});
+      // },
+      _onUpdate: function(e) {
+        var model = e.model;
+          this.fire('update-post', {post: this.post});
+      },
+    });
+  </script>
+</dom-module>

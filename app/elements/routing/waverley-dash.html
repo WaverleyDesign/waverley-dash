@@ -71,6 +71,7 @@
                 posts="{{posts}}"
                 filter-by="all"
                 on-delete-post="deletePost"
+                on-update-post="updatePost"
               ></blogroll-editor>
 
               <!-- <post-list posts="{{posts}}"
@@ -142,12 +143,21 @@
             title: e.detail.title,
             author: e.detail.author,
             html: e.detail.html,
+            newTitle: e.detail.title,
+            newAuthor: e.detail.author,
+            newHtml: e.detail.html,
             isComplete: false
           });
         },
 
         deletePost: function(e) {
           this.arrayDelete('posts', e.detail.post);
+        },
+
+        updatePost: function(e) {
+          console.log(e.detail.post.newTitle);
+          var ref = new Firebase(this.location + '/users/' + this.user.uid + '/' + e.detail.post.__firebaseKey__);
+          ref.update({title: e.detail.post.newTitle, html: e.detail.post.newHtml, author: e.detail.post.newAuthor});
         },
 
         clearPosts: function() {
