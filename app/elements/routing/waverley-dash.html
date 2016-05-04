@@ -13,10 +13,9 @@
         padding: 32px;
       }
 
-      neon-animatable > * {
-        width: 80%;
+      blogroll-editor {
+        margin: -32px;
       }
-
 
 
 
@@ -26,24 +25,21 @@
 
     <carbon-route route="{{route}}" pattern="/:tabName" data="{{data}}"></carbon-route>
 
-    <paper-drawer-panel force-narrow="true">
+    <!-- <paper-drawer-panel>
       <paper-header-panel drawer>
         <paper-toolbar class="medium-tall">
           <div class="app-name">
             Menu
           </div>
         </paper-toolbar>
-        <!-- <google-signin
-          client-id="413722094262-4149pnqs89rldp7k15ht8q7fta7dr8ec.apps.googleusercontent.com"
-          scopes="https://www.googleapis.com/auth/analytics">
-        </google-signin> -->
       </paper-header-panel>
       <paper-scroll-header-panel main>
         <div class="paper-header">
-          <paper-toolbar>
-            <paper-icon-button icon="menu" paper-drawer-toggle></paper-icon-button>
+          <paper-toolbar class="medium-tall">
             <div class="app-name">
-              <span class="waverley">Waverley</span><span class="dash">Dash</span>
+              <h3>
+                <span class="waverley">Waverley</span><span class="dash">Dash</span>
+              </h3>
             </div>
             <span class="flex"></span>
             <paper-icon-button icon="more-vert" on-tap="signOut"></paper-icon-button>
@@ -56,46 +52,63 @@
         </div>
 
         <div>
-          <neon-animated-pages id='animatedPages'
-                               selected='{{selectedPage}}'
-                               entry-animation='{{entryAnimation}}'
-                               exit-animation='{{exitAnimation}}'
-                               attr-for-selected="name">
 
-            <neon-animatable class="vertical layout center" name='overview'>
-              <overview-page views="56" comments="28"></overview-page>
-            </neon-animatable>
-
-            <neon-animatable class="vertical layout center" name='blog'>
-              <blogroll-editor
-                posts="{{posts}}"
-                filter-by="all"
-                on-delete-post="deletePost"
-                on-update-post="updatePost"
-              ></blogroll-editor>
-
-              <!-- <post-list posts="{{posts}}"
-                         filter-by="all"
-                         on-delete-post="deletePost">
-              </post-list> -->
-            </neon-animatable>
-
-            <neon-animatable class="vertical layout center" name='newPost'>
-              <new-post-editor on-add-post="addPost"></new-post-editor>
-
-            </neon-animatable>
-
-            <neon-animatable class="vertical layout center" name='settings'>
-              <settings-page
-                user="[[user]]"
-              ></settings-page>
-            </neon-animatable>
-
-          </neon-animated-pages>
         </div>
       </paper-scroll-header-panel>
-    </paper-drawer-panel>
+    </paper-drawer-panel> -->
 
+    <app-drawer-layout>
+  <app-drawer force-narrow swipe-open="true">
+    <div class="">
+      <iron-selector attr-for-selected="name" selected="{{data.tabName}}">
+        <paper-icon-button icon="home" name="overview"></paper-icon-button>
+        <paper-icon-button icon="description" name="blog"></paper-icon-button>
+        <paper-icon-button icon="settings" name="settings"></paper-icon-button>
+      </iron-selector>
+    </div>
+  </app-drawer>
+  <app-header-layout>
+    <app-header fixed shadow>
+      <app-toolbar>
+        <div title>App name</div>
+      </app-toolbar>
+    </app-header>
+
+    <neon-animated-pages id='animatedPages'
+                         selected='{{selectedPage}}'
+                         entry-animation='{{entryAnimation}}'
+                         exit-animation='{{exitAnimation}}'
+                         attr-for-selected="name">
+
+      <neon-animatable class="vertical layout center" name='overview'>
+        <overview-page views="56" comments="28"></overview-page>
+      </neon-animatable>
+
+      <neon-animatable class="vertical layout" name='blog'>
+        <blogroll-editor
+          posts="{{posts}}"
+          filter-by="all"
+          on-delete-post="deletePost"
+          on-update-post="updatePost"
+        ></blogroll-editor>
+
+      </neon-animatable>
+
+      <neon-animatable class="vertical layout center" name='newPost'>
+        <new-post-editor on-add-post="addPost"></new-post-editor>
+
+      </neon-animatable>
+
+      <neon-animatable class="vertical layout center" name='settings'>
+        <settings-page
+          user="[[user]]"
+        ></settings-page>
+      </neon-animatable>
+
+    </neon-animated-pages>
+
+  </app-header-layout>
+</app-drawer-layout>
 
 
   </template>

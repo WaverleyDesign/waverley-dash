@@ -3,19 +3,27 @@
     <style include="shared-styles"></style>
     <style include="iron-flex iron-flex-alignment"></style>
     <style>
-    #posts {
-  @apply(--layout-vertical);
-  @apply(--layout-wrap);
-  height: 344px;
-  width: 100%;
+
+
+iron-pages {
+  width: 70%;
 }
 
-#posts > paper-card {
-  box-sizing: border-box;
-  width: 50%;
-  margin: 4px;
-  flex: 0 0 auto;
-  color: black;
+paper-card {
+  width: calc(50% - 12px);
+  margin: 4px 0px;
+}
+
+.grid {
+  padding: 8px 0px 0px 8px;
+  @apply(--layout-horizontal);
+  @apply(--layout-wrap);
+  height: 100%;
+  width: 30%;
+}
+
+iron-selector {
+  width: 100%;
 }
     </style>
 
@@ -35,32 +43,39 @@
     ></collapsible-editor>
   </template>
 </div> -->
+<div class="horizontal layout">
+  <div class="horizontal layout grid">
+    <iron-selector selected="{{selected}}" attr-for-selected="name">
+      <template is="dom-repeat"
+                items="{{posts}}"
+                as="post"
+                filter="{{_computeFilter(filterBy)}}"
+                observe="isComplete">
+          <paper-card elevation="1" image="{{post.featureImage}}" heading="{{post.title}}" name="{{post.title}}">
+            <div class="card-actions">
+              <paper-icon-button icon="close" on-tap="_onDelete"></paper-icon-button>
+            </div>
+          </paper-card>
+      </template>
+    </iron-selector>
+  </div>
 
-<div id="posts">
-  <iron-selector selected="{{selected}}" attr-for-selected="name">
+  <iron-pages attr-for-selected="name" selected="{{selected}}">
     <template is="dom-repeat"
               items="{{posts}}"
               as="post"
               filter="{{_computeFilter(filterBy)}}"
               observe="isComplete">
-        <paper-card heading="{{post.title}}" name="{{post.title}}" on-tap="_onDelete">
-        </paper-card>
+
+            <section name="{{post.title}}">
+              <paper-material elevation="1">
+                <text-editor-updater on-delete="" post="{{post}}"></text-editor-updater>
+              </paper-material>
+            </section>
     </template>
-  </iron-selector>
+  </iron-pages>
 </div>
 
-
-<iron-pages attr-for-selected="name" selected="{{selected}}">
-  <template is="dom-repeat"
-            items="{{posts}}"
-            as="post"
-            filter="{{_computeFilter(filterBy)}}"
-            observe="isComplete">
-          <section name="{{post.title}}">
-            <text-editor-updater on-delete="" post="{{post}}"></text-editor-updater>
-          </section>
-  </template>
-</iron-pages>
 
 
 

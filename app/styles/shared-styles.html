@@ -10,7 +10,7 @@
         font-weight: 300;
       }
       .dash {
-        font-family: 'Roboto Mono', Consolas, monospace;
+        font-family: 'Roboto', Helvetica, sans-serif;
         font-weight: 400;
       }
       paper-scroll-header-panel {
@@ -19,6 +19,19 @@
       neon-animatable {
         @apply(--layout-vertical);
         @apply(--center);
+      }
+
+      app-toolbar {
+        background-color: var(--primary-color);
+      }
+      app-drawer {
+        @apply(--shadow-elevation-4dp)
+      }
+
+      iron-selector paper-icon-button {
+        margin: 4px;
+        width: 50px;
+        height: 50px;
       }
 
       /* */

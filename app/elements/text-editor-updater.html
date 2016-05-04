@@ -2,10 +2,53 @@
   <template>
     <style include="shared-styles"></style>
     <style include="iron-flex iron-flex-alignment"></style>
+    <style>
+      .image {
+        width: 100%;
+        height: 300px;
+        background-repeat: no-repeat;
+        background-position: center;
+        background-size: cover;
+      }
 
-    <span>{{post.__firebaseKey__}}</span>
-    <text-editor id="textEditor" title="{{post.newTitle}}" author="{{post.newAuthor}}" html="{{post.newHtml}}"></text-editor>
-    <paper-input label="" value="{{post.newValue}}"></paper-input>
+      paper-toolbar paper-fab {
+        position: absolute;
+        bottom: 38px;
+        right: 56px;
+      }
+
+      h3 {
+        @apply(--paper-font-headline);
+        margin: 0px;
+      }
+      h6 {
+        @apply(--paper-font-subhead);
+        margin: 0px;
+      }
+
+      text-editor {
+        --toolbar-color: var(--light-primary-color);
+      }
+
+      paper-toolbar {
+        height: 86px;
+      }
+    </style>
+
+    <div class="image horizontal end-justified layout" style$="background-image: url({{post.featureImg}})">
+      <paper-icon-button icon="photo"></paper-icon-button>
+    </div>
+    <paper-toolbar class="headerBar">
+      <div class="vertical layout">
+        <h3>{{post.title}}</h3>
+        <h6>An article by {{post.author}}</h6>
+      </div>
+      <paper-fab icon="create"></paper-fab>
+    </paper-toolbar>
+    <neon-animated-pages>
+
+    </neon-animated-pages>
+    <text-editor id="textEditor" hide-title-editor="true" html="{{post.newHtml}}"></text-editor>
     <paper-button raised on-tap="_onUpdate">Update</paper-button>
     <paper-button raised on-tap="_onDelete">delete</paper-button>
   </template>
