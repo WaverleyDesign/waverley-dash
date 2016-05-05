@@ -1,0 +1,23 @@
+<dom-module id="blog-quick-look">
+  <template>
+    <style include="shared-styles"></style>
+    <style include="iron-flex iron-flex-alignment"></style>
+    <style>
+    
+    </style>
+
+    <paper-icon-button icon="close" on-tap="_onDelete"></paper-icon-button>
+
+  </template>
+  <script>
+    Polymer({
+      is: 'blog-quick-look',
+      properties: {
+        post: Object,
+      },
+      _onDelete: function() {
+        this.fire('delete-post', {post: this.post});
+      },
+    });
+  </script>
+</dom-module>

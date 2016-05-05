@@ -17,6 +17,10 @@
         margin: -32px;
       }
 
+      new-post-editor, settings-page {
+        width: 80%;
+      }
+
 
 
     </style>
@@ -57,9 +61,9 @@
       </paper-scroll-header-panel>
     </paper-drawer-panel> -->
 
-    <app-drawer-layout>
-  <app-drawer force-narrow swipe-open="true">
-    <div class="">
+<paper-drawer-panel drawer-width="58px">
+  <paper-header-panel drawer>
+    <div class="drawer">
       <iron-selector attr-for-selected="name" selected="{{data.tabName}}">
         <paper-icon-button icon="home" name="overview"></paper-icon-button>
         <paper-icon-button icon="description" name="blog"></paper-icon-button>
@@ -67,13 +71,11 @@
         <paper-icon-button icon="create" name="newPost"></paper-icon-button>
       </iron-selector>
     </div>
-  </app-drawer>
-  <app-header-layout>
-    <app-header fixed shadow>
-      <app-toolbar>
-        <div title>App name</div>
-      </app-toolbar>
-    </app-header>
+  </paper-header-panel>
+  <paper-header-panel main>
+    <app-toolbar>
+      <div title>App name</div>
+    </app-toolbar>
 
     <neon-animated-pages id='animatedPages'
                          selected='{{selectedPage}}'
@@ -87,6 +89,7 @@
 
       <neon-animatable class="vertical layout" name='blog'>
         <blogroll-editor
+          id="blogrollEditor"
           posts="{{posts}}"
           filter-by="all"
           on-delete-post="deletePost"
@@ -107,9 +110,8 @@
       </neon-animatable>
 
     </neon-animated-pages>
-
-  </app-header-layout>
-</app-drawer-layout>
+  </paper-header-panel>
+</paper-drawer-panel>
 
 
   </template>

@@ -61,9 +61,13 @@ paper-material {
                 filter="{{_computeFilter(filterBy)}}"
                 observe="isComplete">
           <paper-card elevation="0" image="{{post.featureImg}}" heading="{{post.title}}" name="{{post.title}}">
-            <div class="card-actions">
-              <paper-icon-button icon="close" on-tap="_onDelete"></paper-icon-button>
-            </div>
+            <paper-item>
+              <paper-item-body two-line>
+                <div>{{post.title}}</div>
+                <div secondary>{{post.author}}</div>
+              </paper-item-body>
+              <blog-quick-look post="{{post}}"></blog-quick-look>
+            </paper-item>
           </paper-card>
       </template>
     </iron-selector>
@@ -78,7 +82,7 @@ paper-material {
 
             <section name="{{post.title}}">
               <paper-material elevation="1">
-                <text-editor-updater on-delete="" post="{{post}}"></text-editor-updater>
+                <text-editor-updater id="updater" on-update-post="setContent" post="{{post}}"></text-editor-updater>
               </paper-material>
             </section>
     </template>
@@ -103,6 +107,11 @@ paper-material {
 
       },
 
+      setContent: function(e) {
+        var model = e.model;
+        console.log(model);
+        model.$.updater.setContent();
+      },
 
       _onDelete: function() {
         this.fire('delete-post', {post: this.post});

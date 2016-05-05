@@ -87,6 +87,9 @@
         }
       },
       ready: function() {
+        this.setContent();
+      },
+      setContent: function() {
         var domBind = document.createElement('template', 'dom-bind');
         domBind.greeting = this.post.html;
         var doc = domBind.content.ownerDocument;
@@ -94,6 +97,7 @@
         elem.innerHTML = this.post.html;
         domBind.content.appendChild(elem);
         this.$.container.appendChild(domBind);
+        console.log('this is a good sign.');
       },
       _onDelete: function() {
         this.fire('delete-post', {post: this.post});

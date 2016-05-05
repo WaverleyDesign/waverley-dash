@@ -23,9 +23,22 @@
 
       app-toolbar {
         background-color: var(--primary-color);
+        @apply(--shadow-elevation-2dp);
+        color: white;
       }
-      app-drawer {
-        @apply(--shadow-elevation-4dp)
+      .drawer {
+        @apply(--shadow-elevation-4dp);
+        background-color: var(--light-primary-color);
+        color: white;
+        height: 100%;
+      }
+
+      paper-drawer-panel {
+        background-color: var(--paper-blue-grey-50);
+      }
+
+      paper-material, paper-card {
+        background-color: #f5f5f5;
       }
 
       iron-selector paper-icon-button {
@@ -41,7 +54,7 @@
       }
 
       neon-animated-pages {
-        
+
       }
 
       /* text editor */
@@ -55,19 +68,23 @@
       }
       paper-input.big {
         --paper-input-container-input: {
-          font-size: 36px;
+          font-size: 32px;
+          color: white;
         };
+        --paper-input-container-focus-color: white;
+        --paper-input-container-color: var(--paper-grey-100);
       }
 
       text-editor {
-        --toolbar-color: var(--dark-accent-color);
+        --toolbar-color: var(--light-primary-color);
       }
 
       .editor-toolbar {
         padding: 16px;
         @apply(--layout-horizontal);
         @apply(--layout-end);
-        background-color: var(--accent-color);
+        background-color: var(--primary-color);
+        color: white;
       }
 
       .divOne {

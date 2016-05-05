@@ -29,14 +29,6 @@
         </div>
       </paper-dialog>
 
-
-
-      <!-- <text-editor id="textEditor" title="{{title}}" author="{{author}}" html="{{html}}">
-
-      </text-editor>
-
-<paper-button on-tap="_add">Add</paper-button> -->
-
 <paper-card>
   <div class="card-content">
     <div class="horizontal layout editor-toolbar">
@@ -45,7 +37,13 @@
       </div>
       <div class="vertical layout divTwo">
         <div class="end-justified horizontal layout">
-          <paper-icon-button icon="close" on-tap="toggle"></paper-icon-button>
+          <paper-menu-button id="menuButton">
+            <paper-icon-button icon="perm-media" class="dropdown-trigger"></paper-icon-button>
+            <div class="dropdown-content">
+              <paper-input label="Image Url" value="{{featureImg}}"></paper-input>
+              <paper-button raised on-tap="addFeatureImage">Add Feature Image</paper-button>
+            </div>
+            </paper-menu-button>
         </div>
         <div class="end-justified horizontal layout">
           <p class="date">{{date}}</p>
@@ -55,7 +53,7 @@
       <text-editor id="textEditor" hide-title-editor="true" html="{{html}}" title="{{title}}" author="{{author}}">
       </text-editor>
   </div>
-  <div class="card-actions">
+  <div class="card-actions horizontal layout end-justified">
 <paper-button raised on-tap="openDialog">Post</paper-button>
   </div>
 </paper-card>
@@ -75,6 +73,9 @@
       },
       openDialog: function() {
         this.$.dialog.toggle();
+      },
+      addFeatureImage: function() {
+        this.$.menuButton.close();
       },
       newPost: function() {
         if (this.hidden == true) {
