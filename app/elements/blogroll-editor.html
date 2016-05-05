@@ -12,6 +12,11 @@ iron-pages {
 paper-card {
   width: calc(50% - 12px);
   margin: 4px 0px;
+  --paper-card-header-color: #fff;
+}
+
+paper-card .card-actions {
+  padding: 0px;
 }
 
 .grid {
@@ -24,6 +29,10 @@ paper-card {
 
 iron-selector {
   width: 100%;
+}
+
+paper-material {
+  height: 1000px;
 }
     </style>
 
@@ -51,7 +60,7 @@ iron-selector {
                 as="post"
                 filter="{{_computeFilter(filterBy)}}"
                 observe="isComplete">
-          <paper-card elevation="1" image="{{post.featureImage}}" heading="{{post.title}}" name="{{post.title}}">
+          <paper-card elevation="0" image="{{post.featureImg}}" heading="{{post.title}}" name="{{post.title}}">
             <div class="card-actions">
               <paper-icon-button icon="close" on-tap="_onDelete"></paper-icon-button>
             </div>

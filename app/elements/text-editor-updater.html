@@ -10,13 +10,19 @@
         background-position: center;
         background-size: cover;
       }
-
       paper-toolbar paper-fab {
         position: absolute;
         bottom: 38px;
         right: 56px;
       }
-
+      .headerBar {
+        margin-left: 32px;
+        margin-top: 16px;
+      }
+      .container {
+        @apply(--layout-horizontal);
+        @apply(--layout-end);
+      }
       h3 {
         @apply(--paper-font-headline);
         margin: 0px;
@@ -25,40 +31,70 @@
         @apply(--paper-font-subhead);
         margin: 0px;
       }
-
       text-editor {
         --toolbar-color: var(--light-primary-color);
       }
-
       paper-toolbar {
         height: 86px;
       }
+      .reader > * {
+        margin-left: 16px;
+      }
+      .reader {
+        padding: 32px;
+      }
+      .image paper-icon-button {
+        color: white;
+      }
     </style>
 
-    <div class="image horizontal end-justified layout" style$="background-image: url({{post.featureImg}})">
-      <paper-icon-button icon="photo"></paper-icon-button>
+    <div class="image container" style$="background-image: url({{post.featureImg}})">
+      <paper-icon-button hidden="{{!editing}}" icon="perm-media"></paper-icon-button>
     </div>
-    <paper-toolbar class="headerBar">
-      <div class="vertical layout">
+    <paper-toolbar>
+      <div class="vertical layout headerBar">
         <h3>{{post.title}}</h3>
         <h6>An article by {{post.author}}</h6>
       </div>
-      <paper-fab icon="create"></paper-fab>
+      <paper-fab id="fab" icon="create" on-tap="togglePage"></paper-fab>
     </paper-toolbar>
-    <neon-animated-pages>
+    <neon-animated-pages id="pages" selected="{{selected}}" entry-animation="fade-in-animation" exit-animation="fade-out-animation">
+      <neon-animatable>
+        <div class="reader" id="container">
 
+        </div>
+      </neon-animatable>
+      <neon-animatable>
+        <text-editor id="textEditor" hide-title-editor="true" html="{{post.newHtml}}"></text-editor>
+        <paper-button raised on-tap="_onUpdate">Update</paper-button>
+        <paper-button raised on-tap="_onDelete">delete</paper-button>
+      </neon-animatable>
     </neon-animated-pages>
-    <text-editor id="textEditor" hide-title-editor="true" html="{{post.newHtml}}"></text-editor>
-    <paper-button raised on-tap="_onUpdate">Update</paper-button>
-    <paper-button raised on-tap="_onDelete">delete</paper-button>
+
   </template>
   <script>
     Polymer({
       is: 'text-editor-updater',
       properties: {
-        post: Object
+        post: Object,
+        selected: {
+          type: Number,
+          value: 0
+        },
+        editing: {
+          type: Boolean,
+          value: false
+        }
       },
-
+      ready: function() {
+        var domBind = document.createElement('template', 'dom-bind');
+        domBind.greeting = this.post.html;
+        var doc = domBind.content.ownerDocument;
+        var elem = doc.createElement('div');
+        elem.innerHTML = this.post.html;
+        domBind.content.appendChild(elem);
+        this.$.container.appendChild(domBind);
+      },
       _onDelete: function() {
         this.fire('delete-post', {post: this.post});
       },
@@ -68,6 +104,16 @@
       _onUpdate: function(e) {
         var model = e.model;
           this.fire('update-post', {post: this.post});
+      },
+      togglePage: function() {
+        this.$.pages.selectNext();
+        if (this.$.fab.icon == "create") {
+          this.$.fab.icon = "menu";
+          this.editing = true;
+        } else if (this.$.fab.icon !== "create") {
+          this.$.fab.icon = "create";
+          this.editing = false;
+        }
       },
     });
   </script>
