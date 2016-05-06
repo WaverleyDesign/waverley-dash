@@ -74,7 +74,7 @@
   </paper-header-panel>
   <paper-header-panel main>
     <app-toolbar>
-      <div title>App name</div>
+      <div title><span class="waverley">Waverley</span><span class="dash">Dash</span> > {{selectedPage}} </div>
     </app-toolbar>
 
     <neon-animated-pages id='animatedPages'
@@ -159,9 +159,11 @@
             title: e.detail.title,
             author: e.detail.author,
             html: e.detail.html,
+            featureImg: e.detail.featureImg,
             newTitle: e.detail.title,
             newAuthor: e.detail.author,
             newHtml: e.detail.html,
+            newFeatureImg: e.detail.featureImg,
             isComplete: false
           });
         },
@@ -173,7 +175,7 @@
         updatePost: function(e) {
           console.log(e.detail.post.newTitle);
           var ref = new Firebase(this.location + '/users/' + this.user.uid + '/' + e.detail.post.__firebaseKey__);
-          ref.update({title: e.detail.post.newTitle, html: e.detail.post.newHtml, author: e.detail.post.newAuthor});
+          ref.update({title: e.detail.post.newTitle, html: e.detail.post.newHtml, author: e.detail.post.newAuthor, featureImg: e.detail.post.newFeatureImg});
         },
 
         clearPosts: function() {

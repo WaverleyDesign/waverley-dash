@@ -7,6 +7,7 @@
         display: none;
       }
 
+      
       paper-card {
         width: 100%;
         padding: 0px;
@@ -86,7 +87,7 @@
       },
       _add: function() {
         if (this.$.textEditor.html) {
-          this.fire('add-post', {title: this.$.textEditor.title, author: this.$.textEditor.author, html: this.$.textEditor.html});
+          this.fire('add-post', {title: this.$.textEditor.title, author: this.$.textEditor.author, html: this.$.textEditor.html, featureImg: this.featureImg});
           this.$.textEditor.html = null;
           this.$.textEditor.title = null;
           this.$.textEditor.author = null;
