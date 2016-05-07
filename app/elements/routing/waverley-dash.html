@@ -94,18 +94,22 @@
           filter-by="all"
           on-delete-post="deletePost"
           on-update-post="updatePost"
+          set-feature-imgs="{{settings.setFeatureImgs}}"
         ></blogroll-editor>
 
       </neon-animatable>
 
       <neon-animatable class="vertical layout center" name='newPost'>
-        <new-post-editor on-add-post="addPost"></new-post-editor>
+        <new-post-editor on-add-post="addPost" set-feature-imgs="{{!settings.setFeatureImgs}}"></new-post-editor>
 
       </neon-animatable>
 
       <neon-animatable class="vertical layout center" name='settings'>
         <settings-page
           user="[[user]]"
+          googleAsAuthor="{{googleAsAuthor}}"
+          alternateName="{{alternateName}}"
+          settings="{{settings}}"
         ></settings-page>
       </neon-animatable>
 

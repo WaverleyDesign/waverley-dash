@@ -31,6 +31,10 @@ iron-selector {
   width: 100%;
 }
 
+div [hidden] {
+  display: none;
+}
+
 paper-material {
   height: 1000px;
 }
@@ -60,11 +64,19 @@ paper-material {
                 as="post"
                 filter="{{_computeFilter(filterBy)}}"
                 observe="isComplete">
-          <paper-card elevation="0" image="{{post.featureImg}}" heading="{{post.title}}" name="{{post.title}}">
+                <paper-card hidden="{{setFeatureImgs}}" elevation="0" image="{{post.featureImg}}" heading="{{post.title}}" name="{{post.title}}">
+                  <paper-item>
+                    <paper-item-body two-line>
+                      <div>{{post.title}}</div>
+                      <div secondary>{{post.author}}</div>
+                    </paper-item-body>
+                    <blog-quick-look post="{{post}}"></blog-quick-look>
+                  </paper-item>
+                </paper-card>
+          <paper-card hidden="{{!setFeatureImgs}}" elevation="0" name="{{post.title}}">
             <paper-item>
-              <paper-item-body two-line>
+              <paper-item-body>
                 <div>{{post.title}}</div>
-                <div secondary>{{post.author}}</div>
               </paper-item-body>
               <blog-quick-look post="{{post}}"></blog-quick-look>
             </paper-item>
@@ -82,7 +94,7 @@ paper-material {
 
             <section name="{{post.title}}">
               <paper-material elevation="1">
-                <text-editor-updater id="updater" on-update-post="setContent" post="{{post}}"></text-editor-updater>
+                <text-editor-updater set-feature-imgs="{{setFeatureImgs}}" id="updater" on-update-post="setContent" post="{{post}}"></text-editor-updater>
               </paper-material>
             </section>
     </template>
@@ -103,6 +115,10 @@ paper-material {
         filterBy: {
           type: String,
           value: 'all'
+        },
+
+        setFeatureImgs: {
+          type: Boolean,
         }
 
       },

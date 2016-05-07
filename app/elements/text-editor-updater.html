@@ -23,14 +23,7 @@
         @apply(--layout-horizontal);
         @apply(--layout-end);
       }
-      h3 {
-        @apply(--paper-font-headline);
-        margin: 0px;
-      }
-      h6 {
-        @apply(--paper-font-subhead);
-        margin: 0px;
-      }
+
       text-editor {
         --toolbar-color: var(--light-primary-color);
       }
@@ -48,11 +41,16 @@
       }
       .buttons {
         padding: 8px;
+        background-color: #fafafa;
+        position: fixed;
+        bottom: 0px;
+        right: 0px;
+        width: calc(70% - 62px);
         border-top: 1px solid var(--light-primary-color);
       }
     </style>
 
-    <div class="image container" style$="background-image: url({{post.featureImg}})">
+    <div hidden="{{setFeatureImgs}}" class="image container" style$="background-image: url({{post.featureImg}})">
       <paper-menu-button hidden="{{!editing}}" id="menuButton">
         <paper-icon-button icon="perm-media" class="dropdown-trigger"></paper-icon-button>
         <div class="dropdown-content">
@@ -66,7 +64,9 @@
         <h3>{{post.title}}</h3>
         <h6>An article by {{post.author}}</h6>
       </div>
-      <paper-fab id="fab" icon="create" on-tap="togglePage"></paper-fab>
+      <span class="flex"></span>
+      <paper-icon-button hidden="{{!setFeatureImgs}}" id="pab" on-tap="togglePage" icon="create"></paper-icon-button>
+      <paper-fab hidden="{{setFeatureImgs}}" id="fab" icon="create" on-tap="togglePage"></paper-fab>
     </paper-toolbar>
     <iron-pages id="pages" selected="{{selected}}">
       <section>
@@ -92,6 +92,9 @@
         selected: {
           type: Number,
           value: 0
+        },
+        setFeatureImgs: {
+          type: Boolean,
         },
         editing: {
           type: Boolean,
@@ -123,13 +126,24 @@
       },
       togglePage: function() {
         this.$.pages.selectNext();
-        if (this.$.fab.icon == "create") {
-          this.$.fab.icon = "menu";
-          this.editing = true;
-        } else if (this.$.fab.icon !== "create") {
-          this.$.fab.icon = "create";
-          this.editing = false;
+        if (this.setFeatureImgs == false) {
+          if (this.$.fab.icon == "create") {
+            this.$.fab.icon = "menu";
+            this.editing = true;
+          } else if (this.$.fab.icon !== "create") {
+            this.$.fab.icon = "create";
+            this.editing = false;
+          }
+        } else if (this.setFeatureImgs == true) {
+          if (this.$.pab.icon == "create") {
+            this.$.pab.icon = "menu";
+            this.editing = true;
+          } else if (this.$.pab.icon !== "create") {
+            this.$.pab.icon = "create";
+            this.editing = false;
+          }
         }
+
       },
     });
   </script>

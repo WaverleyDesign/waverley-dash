@@ -7,21 +7,69 @@ s<dom-module id="settings-page">
       height:200px;
     }
 
+    paper-item {
+      margin-left: -32px;
+      margin-right: -32px;
+      padding-left: 32px;
+      padding-right: 32px;
+    }
+
+    .pleaseNote {
+      color: var(--paper-grey-500)
+    }
+
 
     </style>
     <style include="iron-flex iron-flex-alignment"></style>
 
-    <paper-material elevation="1">
-      <h1>Account Details</h1>
+    <iron-localstorage name="alternate-as-author" value="{{settings.alternateAsAuthor}}"></iron-localstorage>
+    <iron-localstorage name="google-as-author" value="{{settings.googleAsAuthor}}"></iron-localstorage>
+    <iron-localstorage name="alternate-name" value="{{settings.alternateName}}"></iron-localstorage>
+    <iron-localstorage name="set-feature-imgs" value="{{settings.setFeatureImgs}}"></iron-localstorage>
 
-      <paper-toggle-button checked></paper-toggle-button>
+    <paper-material class="page-material" elevation="1">
+      <h3>Waverley Dash Settings</h3>
+      <br>
+      <h5>Editor Options</h5>
+      <paper-item disabled="[[settings.alternateAsAuthor]]">
+        <paper-item-body two-line>
+          <div>Use Google Account name as author</div>
+          <div secondary>Your Google Account Display Name (<span>{{user.google.displayName}}</span>) will be shown as author of your posts</div>
+        </paper-item-body>
+        <paper-toggle-button checked="{{settings.googleAsAuthor}}" disabled="[[settings.alternateAsAuthor]]"></paper-toggle-button>
+      </paper-item>
+      <paper-item disabled="[[settings.googleAsAuthor]]">
+        <paper-item-body two-line>
+          <div>Use alternate name as author</div>
+          <div secondary>A custom name <span hidden="{{!settings.alternateName}}">(<span>{{alternateName}}</span>)</span> will be shown as author of your posts</div>
+        </paper-item-body>
+        <paper-toggle-button checked="{{settings.alternateAsAuthor}}" disabled="[[settings.googleAsAuthor]]"></paper-toggle-button>
+      </paper-item>
+      <iron-collapse opened="{{settings.alternateAsAuthor}}">
+        <paper-input label="Alternate Author Name" value="{{settings.alternateName}}"></paper-input>
+      </iron-collapse>
+      <paper-item>
+        <paper-item-body two-line>
+          <div>Set feature images in posts</div>
+          <div secondary>Check this to be able add feature images to all your posts</div>
+        </paper-item-body>
+        <paper-checkbox checked="{{!settings.setFeatureImgs}}"></paper-checkbox>
+      </paper-item>
 
-      <paper-card heading="{{user.google.displayName}}">
-        <div class="card-content">
-          <img src$="{{user.google.profileImageURL}}" alt$="{{user.google.displayName}}" />
-        </div>
-        <div class="card-actions"></div>
-      </paper-card>
+      <br>
+      <h5>Account Options</h5>
+      <paper-item>
+        <paper-item-body two-line>
+          <div>Sign out of Waverley Dash</div>
+          <div secondary>You will be prompted to sign in again when you revisit.</div>
+        </paper-item-body>
+        <paper-button on-tap="fireSignOut">Sign out</paper-button>
+      </paper-item>
+
+      <br>
+      <p class="pleaseNote">
+        Please Note: These settings are stored locally on your computer and so need to be reset if you chance devices or clear your cache.
+      </p>
 
     </paper-material>
 
@@ -29,6 +77,50 @@ s<dom-module id="settings-page">
   <script>
     Polymer({
       is: 'settings-page',
+      properties: {
+        settings: {
+          type: Object,
+          notify: true,
+          value: [
+            {
+              googleAsAuthor: {
+                type: Boolean,
+                value: false,
+                notify: true
+              },
+              alternateAsAuthor: {
+                type: Boolean,
+                value: false,
+                notify: true
+              },
+              alternateName: {
+                type: String,
+                value: '',
+                notify: true
+              },
+              setFeatureImgs: {
+                type: Boolean,
+                value: false,
+                notify: true
+              },
+              googleAsAuthor: {
+                type: Boolean,
+                value: false,
+                notify: true
+              },
+              googleAsAuthor: {
+                type: Boolean,
+                value: false,
+                notify: true
+              },
+            }
+          ]
+        },
+
+      },
+      fireSignOut: function() {
+        this.fire('sign-out');
+      }
     });
   </script>
 </dom-module>

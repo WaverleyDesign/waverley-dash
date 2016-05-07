@@ -13,7 +13,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 <dom-module id="post-auth">
 
   <template>
-
+    <style include="shared-styles"></style>
     <style>
       paper-dialog {
         padding: 32px;
@@ -46,6 +46,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         vertical-align: middle;
         padding-left: 42px;
         padding-right: 42px;
+        width: 100%;
         font-size: 14px;
         font-weight: bold;
         /* Use the Roboto font that is loaded in the <head> */
@@ -64,14 +65,16 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                   opened="[[!user]]"
                   entry-animation="scale-up-animation"
                   exit-animation="fade-out-animation">
-      <h2>Oh hai! Please sign in</h2>
-      <div>
-        <div class="google-sign-in"
-             tabindex="0"
-             on-tap="signIn">
-          <span class="google-sign-in-icon"></span>
-          <span class="google-sign-in-label">Google</span>
-        </div>
+      <h3>Welcome To Waverley Dash</h3>
+      <h5>Please sign in</h5>
+
+      <div class="buttons">
+        <paper-button raised on-tap="signIn">
+          <div class="google-sign-in-icon">
+
+          </div>
+           Sign in with google
+        </paper-button>
       </div>
     </paper-dialog>
 

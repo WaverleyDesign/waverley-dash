@@ -7,7 +7,7 @@
         display: none;
       }
 
-      
+
       paper-card {
         width: 100%;
         padding: 0px;
@@ -15,6 +15,16 @@
 
       .card-content {
         padding: 0px;
+      }
+
+      .featureImgPreview {
+        width: 50px;
+        height: 50px;
+        outline: none;
+        background-size: cover;
+        background-repeat: no-repeat;
+        border-radius: 50px;
+        border: 3px solid white;
       }
     </style>
 
@@ -37,7 +47,7 @@
         <paper-input no-label-float label="Title" class="big" value="{{title}}"></paper-input>
       </div>
       <div class="vertical layout divTwo">
-        <div class="end-justified horizontal layout">
+        <div hidden="{{!setFeatureImgs}}" class="end-justified horizontal layout">
           <paper-menu-button id="menuButton">
             <paper-icon-button icon="perm-media" class="dropdown-trigger"></paper-icon-button>
             <div class="dropdown-content">
@@ -45,6 +55,9 @@
               <paper-button raised on-tap="addFeatureImage">Add Feature Image</paper-button>
             </div>
             </paper-menu-button>
+            <div hidden="{{!featureImg}}" on-mouseover="showImgDelete" class="featureImgPreview horizontal layout center" style$="background-image: url({{featureImg}})">
+              <paper-icon-button icon="close" on-tap="removeImg" hidden="{{deleteImgHidden}}"></paper-icon-button>
+            </div>
         </div>
         <div class="end-justified horizontal layout">
           <p class="date">{{date}}</p>
@@ -85,12 +98,19 @@
           this.hidden = true;
         }
       },
+      showImgDelete: function() {
+        this.deleteImgHidden = false;
+      },
+      removeImg: function() {
+        this.featureImg = null;
+      },
       _add: function() {
         if (this.$.textEditor.html) {
           this.fire('add-post', {title: this.$.textEditor.title, author: this.$.textEditor.author, html: this.$.textEditor.html, featureImg: this.featureImg});
           this.$.textEditor.html = null;
           this.$.textEditor.title = null;
           this.$.textEditor.author = null;
+          this.featureImg = null;
         }
       },
     });
