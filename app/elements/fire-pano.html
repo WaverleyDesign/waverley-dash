@@ -1,36 +1,138 @@
 
-<script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
 
+<link rel="import" href="../../bower_components/firebase-element/firebase-collection.html">
 
 <dom-module id="fire-pano">
   <template>
     <style include="shared-styles"></style>
+    <style>
+      div#output {
+        width: 200px;
+        height: 200px;
+        background-repeat: no-repeat;
+        background-size: cover;
+      }
+    </style>
 
-    <div id="spin"></div>
-
-    <paper-spinner active="{{active}}"></paper-spinner>
-
+    <!-- <div id="spin"></div>
     <h1>Firepano</h1>
-    <input class="hidden" type="file" accept="image/*" capture="camera" id="fileUpload" value="{{yah}}">
+    <input is="iron-input" class="hidden" type="file" accept="image/*" capture="camera" id="fileUpload">
     <br/>
-    <span>{{yah}}</span>
     <img class="pano" id="pano" />
 
-    <paper-button on-tap="getUrl">Yeah</paper-button>
+
+-->
+    <paper-button raised on-tap="handleFileSelect">Yeah!</paper-button>
+
+    <input id="fileUpload" type='file' accept='image/*' onchange='openFile(event)'><br>
+
+    <div id="output" >
+
+    </div>
+
+    <template is="dom-bind">
+    <firebase-collection
+      location="https://testingwaverley.firebaseio.com/test"
+      data="{{test}}"></firebase-collection>
+    <template is="dom-repeat" items="[[test]]" as="item">
+      <div style$="width: 60px; height: 60px; background-image: url([[item.src]])">
+
+      </div>
+    </template>
+  </template>
+
+    <script>
+      var openFile = function(event) {
+        var input = event.target;
+
+        var reader = new FileReader();
+        reader.onload = function(){
+          var dataURL = reader.result;
+          var output = document.getElementById('output');
+          // output.src = dataURL;
+          output.style = 'background-image: url(' + dataURL + ')';
+          output.url = dataURL;
+        };
+        reader.readAsDataURL(input.files[0]);
+      };
+
+
+    </script>
 
   </template>
   <script>
     Polymer({
       is: 'fire-pano',
-      getUrl: function() {
-        console.log(this.$.fileUpload.files);
-        //this.$.pano.src = this.$.fileUpload.value;
+      ready: function() {
+        console.log(this.pano);
+      },
+      handleFileSelect: function() {
+        var fileArray = this.$.fileUpload.files;
+        console.log(fileArray[0].size);
+        if (fileArray[0].size > 3000000) {
+          console.log('your file is massive. Too bad.')
+        } else {
+          var ref = new Firebase('https://testingwaverley.firebaseio.com/test');
+          ref.push({src: this.$.output.url});
+          console.log('successful upload!')
+        }
+
       },
     });
   </script>
-  <script>
+  <!-- <script>
+    var spinner = new Spinner({color: '#4caf50'});
+    var firebaseRef = 'https://testingwaverley.firebaseio.com/';
+  function handleFileSelect(evt) {
+    var f = evt.target.files[0];
+    var reader = new FileReader();
+    reader.onload = (function(theFile) {
+      return function(e) {
+        var filePayload = e.target.result;
+        // Generate a location that can't be guessed using the file's contents and a random number
+        var hash = CryptoJS.SHA256(Math.random() + CryptoJS.SHA256(filePayload));
+        var f = new Firebase(firebaseRef + 'pano/' + hash + '/filePayload');
+        spinner.spin(document.getElementById('spin'));
+        // Set the file payload to Firebase and register an onComplete handler to stop the spinner and show the preview
+        f.set(filePayload, function() {
+          spinner.stop();
+          document.getElementById("pano").src = e.target.result;
+          $('#file-upload').hide();
+          // Update the location bar so the URL can be shared with others
+        //  window.location.hash = hash;
+        console.log(hash);
+        });
+      };
+    })(f);
+    reader.readAsDataURL(f);
+  }
 
-  </script>
+  $(function() {
+    $('#spin').append(spinner);
+
+  //  var idx = window.location.href.indexOf('#');
+     var hash = '';
+    if (hash === '') {
+      // No hash found, so render the file upload button.
+      $('#file-upload').show();
+      document.getElementById("file-upload").addEventListener('change', handleFileSelect, false);
+          console.log('yeah');
+    } else {
+      // A hash was passed in, so let's retrieve and render it.
+      spinner.spin(document.getElementById('spin'));
+      var f = new Firebase(firebaseRef + '/pano/' + hash + '/filePayload');
+      f.once('value', function(snap) {
+        var payload = snap.val();
+        if (payload != null) {
+          document.getElementById("pano").src = payload;
+        } else {
+          $('#body').append("Not found");
+        }
+        spinner.stop();
+      });
+    }
+  });
+  </script> -->
   <script>
   /*
   CryptoJS v3.0.2
